@@ -1,0 +1,15 @@
+django
+requests
+django-allauth
+django-rest-knox
+django-cors-headers
+Pillow
+django-filter
+drf-yasg
+# django-crispy-forms==1.14.0
+# django-environ==0.10.0
+pytest-django
+# coverage==7.x.x
+# django-debug-toolbar==4.x.x
+# gunicorn==20.x.x
+# whitenoise==6.x.x

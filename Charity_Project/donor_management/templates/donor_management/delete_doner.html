@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Donor</title>
+</head>
+<body>
+    <h1>Delete Donor</h1>
+    <p>Are you sure you want to delete {{ donor.first_name }} {{ donor.last_name }}?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+        <a href="{% url 'donor_list' %}">Cancel</a>
+    </form>
+</body>
+</html>
