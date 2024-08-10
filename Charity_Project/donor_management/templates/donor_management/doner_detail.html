@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Donor Details</title>
+    {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
@@ -13,7 +14,7 @@
             <div class="donor-info">
                 <p><strong>Name:</strong> {{ donor.name }}</p>
                 <p><strong>Email:</strong> {{ donor.email }}</p>
-                <p><strong>Phone:</strong> {{ donor.phone }}</p>
+                <p><strong>Phone:</strong> {{ donor.phone_number }}</p>
                 <p><strong>Address:</strong> {{ donor.address }}</p>
                 <!-- Add other donor details as needed -->
             </div>

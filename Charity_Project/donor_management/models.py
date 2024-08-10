@@ -32,9 +32,12 @@ class Donor(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    @property
+    def name(self):
         return f"{self.first_name} {self.last_name}"
 
+    def __str__(self):
+        return self.name
 
 class Donation(models.Model):
     PAYMENT_METHOD_CHOICES = [

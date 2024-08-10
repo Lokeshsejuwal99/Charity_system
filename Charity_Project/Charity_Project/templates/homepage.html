@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charity Management System - Homepage</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        {% include 'navbar.html' %}
+        <div class="hero-container">
+            <div class="container">
+                <h1>Welcome to Charity Management System</h1>
+                <p>Your platform for managing donations, campaigns, and volunteers.</p>
+                <a href="{% url 'donor_list' %}" class="btn">Explore Donors</a>
+                <a href="{% url 'campaign_list' %}" class="btn">View Campaigns</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="slogan">"Your Support, Their Hope."</h1>
+
+        <section class="about">
+            <div class="container">
+                <h2>About Us</h2>
+                <p>Our mission is to simplify and enhance the way you manage your charitable contributions and projects. We offer transparent, secure, and user-friendly tools for managing donors, tracking campaign progress, and ensuring every penny is well-spent.</p>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Our Features</h2>
+                <div class="feature-item">
+                    <div class="feature-content">
+                        <h3>Effortless Donations</h3>
+                        <p>Seamlessly manage donations from multiple sources and ensure transparency.</p>
+                    </div>
+                    <div class="feature-image">
+                        <a href="#">
+                            <img src="{% static 'images/donations.jpeg' %}" alt="Effortless Donations">
+                        </a>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-content">
+                        <h3>Comprehensive Campaign Management</h3>
+                        <p>Track progress, manage funds, and engage with donors for each campaign.</p>
+                    </div>
+                    <div class="feature-image">
+                        <a href="#">
+                            <img src="{% static 'images/campaign.jpeg' %}" alt="Campaign Management">
+                        </a>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-content">
+                        <h3>Secure Financial Tracking</h3>
+                        <p>Maintain accurate records of all financial transactions with robust reporting tools.</p>
+                    </div>
+                    <div class="feature-image">
+                        <a href="#">
+                            <img src="{% static 'images/secure_transaction.png' %}" alt="Financial Tracking">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'contact' %}">Contact Us</a>
+                <a>Privacy Policy</a>
+                <a>Terms & Conditions</a>
+            </div>
+            <div class="footer-social">
+                <a href="#"><img src="{% static 'images/facebook-icon.png' %}" alt="Facebook"></a>
+                <a href="#"><img src="{% static 'images/twitter-icon.png' %}" alt="Twitter"></a>
+                <a href="#"><img src="{% static 'images/linkedin-icon.png' %}" alt="LinkedIn"></a>
+                <a href="#"><img src="{% static 'images/instagram-icon.jpg' %}" alt="Instagram"></a>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; 2024 Charity Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+</body>
+<style>
+    /* Global Styles */
+body {
+    line-height: 1.6;
+    margin: 0;
+    padding: 0px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Header Styles */
+header {
+    background-color: #a3a3a3e2;
+    color: #fff;
+    text-align: center;
+    margin-bottom: -40px;
+}
+
+header .hero-container {
+    background-image: url("{% static 'images/hands.jpg' %}");
+    opacity: 200%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px 0;
+    border-radius: 8px;
+    max-width: 105%;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+header .container h1 {
+    font-size: 36px;
+    color:black;
+}
+
+header .container p {
+    margin: 10px 0;
+    font-size: 18px;
+    color: black;
+}
+
+header .container .btn {
+    background: #003f7f;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 10px;
+}
+
+header .container .btn:hover {
+    background: #1382f1d7;
+}
+
+/* Slogan Styles */
+.slogan {
+    color: #0073e6;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Main Section Styles */
+main {
+    padding: 20px 0;
+}
+
+.about, .features {
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+.about h2, .features h2 {
+    text-align: center;
+    color: #08090a;
+    font-size: 30px;
+    padding-bottom: 20px;
+}
+
+.about p, .features .feature-item p {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    padding-left: 30px;
+    padding-right: 30px;
+
+}
+
+/* Features Section Styles */
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.feature-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #efeaeac6;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feature-item .feature-content {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.feature-item .feature-content h3 {
+    color: #0073e6;
+    font-size: 22px;
+    text-align: center;
+}
+
+.feature-item .feature-content p {
+    font-size: 16px;
+}
+
+.feature-item .feature-image {
+    flex: 0 0 200px;
+}
+
+.feature-item .feature-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Footer Styles */
+footer {
+    background: #003f7f;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    header .container h1 {
+        font-size: 28px;
+    }
+
+    .features {
+        flex-direction: column;
+    }
+
+    .feature-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .feature-item .feature-image {
+        margin-bottom: 20px;
+    }
+}
+
+/* Footer Styles */
+footer {
+    background-color: #003f7f;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-links {
+    margin-bottom: 15px;
+}
+
+.footer-links a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-social {
+    margin-bottom: 15px;
+}
+
+.footer-social a {
+    margin: 0 10px;
+}
+
+.footer-social img {
+    width: 24px;
+    height: 24px;
+}
+
+.footer-copy p {
+    font-size: 14px;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-links a {
+        margin: 5px 0;
+    }
+
+    .footer-social {
+        margin-bottom: 20px;
+    }
+}
+
+</style>
+</html>

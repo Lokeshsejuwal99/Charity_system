@@ -8,4 +8,5 @@ urlpatterns = [
     path('doner/<int:pk>/', views.donor_detail, name='donor_detail'),
     path('edit/<int:donor_id>/', views.edit_donor, name='donor_update'),
     path('delete/<int:donor_id>/', views.delete_donor, name='donor_delete'),
+    path('campaigns/', views.campaign_list_view, name='campaign_list'),
 ]

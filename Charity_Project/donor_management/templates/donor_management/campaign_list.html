@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaigns - Charity System</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Our Campaigns</h2>
+        <div class="campaign-list">
+            {% if campaigns %}
+                <ul>
+                    {% for campaign in campaigns %}
+                        <li>
+                            <h3>{{ campaign.name }}</h3>
+                            <p>{{ campaign.description }}</p>
+                            <a href="{% url 'campaign_detail' campaign.id %}" class="btn">View Details</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No campaigns found.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+<style>
+    /* campaign_list.css */
+
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: hsl(197, 93%, 28%);
+    margin-bottom: 20px;
+}
+
+/* Campaign list styles */
+.campaign-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.campaign-list li {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.campaign-list li h3 {
+    margin: 0 0 10px 0;
+    color: hsl(197, 93%, 28%);
+}
+
+.campaign-list li p {
+    margin: 0 0 15px 0;
+    color: #555;
+}
+
+.campaign-list .btn {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    background-color: hsl(197, 93%, 28%);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.campaign-list .btn:hover {
+    background-color: hsl(197, 93%, 35%);
+}
+
+</style>
+</html>
