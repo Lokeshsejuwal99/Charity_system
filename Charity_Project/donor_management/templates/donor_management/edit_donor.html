@@ -5,11 +5,85 @@
     <title>Edit Donor</title>
 </head>
 <body>
-    <h1>Edit Donor</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Changes</button>
-    </form>
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+    <div class="editcontainer">
+        <h1>Edit Donor</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
 </body>
+<style>
+    /* Global Styles */
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+
+    /* editContainer Styles */
+    .editcontainer {
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 15px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    /* Header Styles */
+    h1 {
+        text-align: center;
+        color: #0073e6;
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    /* Form Styles */
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    form label {
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="tel"],
+    form textarea,
+    form select {
+        padding: 4px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    form button[type="submit"] {
+        padding: 8px 15px;
+        background-color: #0073e6;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    form button[type="submit"]:hover {
+        background-color: #005bb5;
+    }
+
+</style>
 </html>

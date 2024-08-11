@@ -7,18 +7,23 @@
 </head>
 <body>
  <header>
+    {% load static %}
   <nav class="navbar">
    <div class="container">
-       <a href="{% url 'homepage' %}" class="logo">Charity System</a>
+       <a href="{% url 'homepage' %}" class="logo">
+        <img src="{% static 'images/logo2.png' %}" alt="Charity System Logo" class="logo-img">
+       </a>
+       {% if request.path == '/' %}
        <ul class="nav-links">
            <li><a href="#">Donations</a></li>
            <li><a href="{% url 'about' %}">About Us</a></li>
            <li><a href="{% url 'contact' %}">Contact</a></li>
        </ul>
        <div class="auth-buttons">
-           <a href="{% url 'login' %}">Login</a>
-           <a href="{% url 'signup' %}">Signup</a>
+           <a href="{% url 'login_as' %}">Log in</a>
+           <a href="{% url 'signup' %}">Sign up</a>
        </div>
+       {% endif %}
    </div>
 </nav>
  </header>
@@ -39,6 +44,12 @@
     padding-left: 12px;
     padding-right: 12px;
     line-height: 1.3;
+}
+
+.logo-img{
+    height: 1.2cm;
+    width: 3cm;
+    /* object-fit: contain; */
 }
 
 .navbar .container {

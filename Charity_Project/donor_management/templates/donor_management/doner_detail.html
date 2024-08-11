@@ -2,8 +2,6 @@
 <html>
 <head>
     <title>Donor Details</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <div class="container">
@@ -16,10 +14,67 @@
                 <p><strong>Email:</strong> {{ donor.email }}</p>
                 <p><strong>Phone:</strong> {{ donor.phone_number }}</p>
                 <p><strong>Address:</strong> {{ donor.address }}</p>
-                <!-- Add other donor details as needed -->
+                <p><strong>District:</strong> {{ donor.district }}</p>
+                <p><strong>Country:</strong> {{ donor.country }}</p>
+                <p><strong>Created at:</strong> {{ donor.created_at }}</p>
+                <p><strong>Updated at:</strong> {{ donor.updated_at }}</p>
             </div>
-            <a class="btn" href="{% url 'donor_list' %}">Back to Donor List</a> <!-- Adjust the URL name as needed -->
         </main>
     </div>
 </body>
+<style>
+    /* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Header Styles */
+header h1 {
+    text-align: center;
+    color: #0073e6;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Donor Info Styles */
+.donor-info p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.donor-info p strong {
+    color: #0073e6;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0073e6;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #005bb5;
+}
+
+</style>
 </html>

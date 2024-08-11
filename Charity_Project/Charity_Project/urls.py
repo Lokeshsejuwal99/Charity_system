@@ -26,8 +26,14 @@ urlpatterns = [
 
     # url for the elements of homepage and navbar
     path('', homepage, name='homepage'),
-    path('login/', login_view, name='login'),
+    path('login_as/', login_as_view, name='login_as'),
     path('signup/', signup_view, name='signup'),
     path('about/', about_view, name='about'),
     path('contact/', contact_view, name='contact'),
+
+    #for admin, volunteer and doner login
+    path('admin_login/', admin_login, name='admin_login'),
+    path('donor_login/', donor_login, name='donor_login'),
+    path('volunteer_login/', volunteer_login, name='volunteer_login'),
+
 ]

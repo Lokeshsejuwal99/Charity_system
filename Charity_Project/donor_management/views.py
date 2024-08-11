@@ -3,7 +3,6 @@ from finance_management.models import Budget
 from donor_management.models import Donor, Donation
 from project_management.models import Project
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Donor, Campaign
 from .forms import DonorForm
 
 
@@ -71,7 +70,8 @@ def donor_detail(request, pk):
     donor = get_object_or_404(Donor, pk=pk)
     return render(request, 'donor_management/doner_detail.html', {'donor': donor})
 
-def campaign_list_view(request):
-    campaigns = Campaign.objects.all()
-    return render(request, 'donor_management/campaign_list.html', {'campaigns': campaigns})
+def donate_now(request):
+    return render(request, 'donor_management/donate_now.html')
 
+def become_volunteer(request):
+    return render(request, 'donor_management/become_volunteer.html')
