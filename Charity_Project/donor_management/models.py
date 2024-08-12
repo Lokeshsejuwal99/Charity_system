@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Donor(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     phone_number = models.CharField(max_length=15, null=True)
     address = models.CharField(max_length=100, null=True)
     district = models.CharField(max_length=100, null=True)
@@ -57,9 +57,9 @@ class Donation(models.Model):
     description = models.CharField(max_length=500, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     admin_remarks = models.CharField(max_length=500, null=True)
-    volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE)
+    volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE, null=True)
     volunteer_remarks = models.CharField(max_length=500, null=True)
-    donation_area = models.ForeignKey(DonationArea, on_delete=models.CASCADE)
+    donation_area = models.ForeignKey(DonationArea, on_delete=models.CASCADE, null=True)
     donation_date = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -68,7 +68,7 @@ class Donation(models.Model):
         return self.donation_name
 
 class Gallery(models.Model):
-    donation = models.ForeignKey(Donor, on_delete=models.CASCADE)
+    donation = models.ForeignKey(Donation, on_delete=models.CASCADE)
     delivery_pic = models.FileField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

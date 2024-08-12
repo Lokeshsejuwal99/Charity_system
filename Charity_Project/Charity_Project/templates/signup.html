@@ -11,23 +11,27 @@
     </header>
     <div class="auth-container">
         <h2>Signup</h2>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="confirm_password">Confirm Password</label>
-                <input type="password" id="confirm_password" name="confirm_password" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
             </div>
             <button type="submit" class="btn">Signup</button>
         </form>
@@ -35,7 +39,7 @@
     </div>
 </body>
 <style>
- /* signup.css */
+/* signup.css */
 
 /* Base styles */
 body {
@@ -46,7 +50,7 @@ body {
 }
 
 .auth-container {
-    max-width: 400px;
+    max-width: 600px; /* Adjusted width to accommodate two columns */
     margin: 50px auto;
     padding: 20px;
     background-color: white;
@@ -61,8 +65,14 @@ h2 {
 }
 
 /* Form styles */
-.form-group {
+.form-row {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 15px;
+}
+
+.form-group {
+    width: 48%; /* Adjust width to make two columns fit */
 }
 
 .form-group label {

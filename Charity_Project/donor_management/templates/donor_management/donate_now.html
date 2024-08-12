@@ -1,16 +1,81 @@
-<!-- donate_now.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donate Now</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
+    {% include 'navbar.html' %}
 <body>
-    <div class="container">
+    <div class="donate-container">
         <h1>Donate Now</h1>
-        <!-- Add donation form or payment gateway integration here -->
+        <form action="{% url 'donate_now' %}" method="post" class="donate-form">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="number" name="amount" placeholder="Donation Amount" required>
+            <input type="submit" value="Donate">
+        </form>
     </div>
 </body>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .donate-container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+        margin-left: 270px;
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .donate-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .donate-form input[type="text"],
+    .donate-form input[type="email"],
+    .donate-form input[type="number"] {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .donate-form input[type="submit"] {
+        padding: 12px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .donate-form input[type="submit"]:hover {
+        background-color: #218838;
+    }
+</style>
 </html>

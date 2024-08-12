@@ -23,7 +23,10 @@
            <a href="{% url 'login_as' %}">Log in</a>
            <a href="{% url 'signup' %}">Sign up</a>
        </div>
+       {% else %}
+       <a href="{% url 'homepage' %}" class="go_back_to_homepage">Go to Homepage</a>
        {% endif %}
+
    </div>
 </nav>
  </header>
@@ -111,6 +114,10 @@
     background-color: hsl(197, 93%, 50%);
 }
 
+.go_back_to_homepage {
+    color: white;
+    text-decoration: none;
+}
 /* Responsive Navbar */
 @media (max-width: 768px) {
     .navbar .container {
