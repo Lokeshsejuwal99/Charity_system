@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
         {% include 'navbar.html' %}
     </header>
     <div class="auth-container">
-        <h2>Signup</h2>
+        <h2>Volunteer Signup</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-row">
@@ -35,7 +35,7 @@
             </div>
             <button type="submit" class="btn">Signup</button>
         </form>
-        <p>Already have an account? <a href="{% url 'login_as' %}">Login</a></p>
+        <p>Already have an account? <a href="{% url 'volunteer_login' %}">Login</a></p>
     </div>
 </body>
 <style>
@@ -121,4 +121,4 @@ h2 {
 }
 
 </style>
-</html> -->
+</html>

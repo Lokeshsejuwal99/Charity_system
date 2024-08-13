@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select signup Type</title>
+    <!-- Include FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+     {% include 'navbar.html' %}
+    <h1 class="msg">Select Sign-up Type</h1>
+
+    <div class="signup-container">
+        <a href="{% url 'admin_signup' %}" class="signup-box">
+            <div class="icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <p>Signup as Admin</p>
+        </a>
+        <a href="{% url 'donor_signup' %}" class="signup-box">
+            <div class="icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <p>Signup as Donor</p>
+        </a>
+        <a href="{% url 'volunteer_signup' %}" class="signup-box">
+            <div class="icon">
+                <i class="fas fa-hands-helping"></i>
+            </div>
+            <p>Signup as Volunteer</p>
+        </a>
+    </div>
+</body>
+<style>
+ body {
+     font-family: 'Arial', sans-serif;
+     background-color: #f4f4f4;
+     margin: 0;
+     padding: 0;
+     flex-direction: column;
+     align-items: center;
+     height: 100vh;
+     justify-content: center;
+ }
+
+ header {
+     margin-bottom: 20px;
+ }
+
+ .msg {
+     font-size: 24px;
+     color: #333;
+     padding-bottom: 40px;
+     text-align: center;
+ }
+
+ .signup-container {
+     display: flex;
+     justify-content: space-around;
+     width: 80%;
+     max-width: 800px;
+     margin-left: 180px;
+ }
+
+ .signup-box {
+     width: 6cm;
+     height: 6cm;
+     background-color: #007bff;
+     color: white;
+     border-radius: 10px;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     transition: background-color 0.3s;
+     cursor: pointer;
+     text-decoration: none;
+     text-align: center;
+ }
+
+ .signup-box:hover {
+     background-color: #0056b3;
+ }
+
+ .icon {
+     font-size: 40px;
+     margin-bottom: 10px;
+ }
+
+ .signup-box p {
+     font-size: 16px;
+     margin: 0;
+ }
+</style>
+</html>

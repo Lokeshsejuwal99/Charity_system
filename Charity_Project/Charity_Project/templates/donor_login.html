@@ -11,7 +11,7 @@
     </header>        
         
     <div class="auth-container">
-        <h2>Login</h2>
+        <h2>Donor Login</h2>
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
@@ -24,7 +24,7 @@
             </div>
             <button type="submit" class="btn">Login</button>
         </form>
-        <p>Don't have an account? <a href="{% url 'signup' %}">Signup</a></p>
+        <p>Don't have an account? <a href="{% url 'donor_signup' %}">Signup</a></p>
     </div>
 </body>
 <style>

@@ -11,8 +11,7 @@ class Donor(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.username
-
+        return self.user.username if self.user else "No Username"
 
 class Volunteer(models.Model):
     Volunteer_status = [
