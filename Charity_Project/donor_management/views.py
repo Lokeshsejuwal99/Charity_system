@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from donor_management.models import Donor
 from django.contrib.auth import login, logout, authenticate
-
+from django.contrib import messages
 
 
 def process_donation(donor_id, amount, project_id=None):
@@ -91,7 +91,7 @@ def donate_now(request):
     
     user = request.user
     donor = Donor.objects.get(user=user)
-    error = "no"  # Default to no error
+    error = None  # Default to no error
 
     if request.method == 'POST':
         try:
@@ -111,9 +111,12 @@ def donate_now(request):
                 description=description,
                 status='pending'
             )
+            messages.success(request, "Collection request has been submitted. We will contact you soon.")
+            return redirect('donation_history')
         except Exception as e:
-            print(f"Error occurred: {e}")  # Log the error
-            error = "yes"
+            print(f"Error occurred: {e}")
+            messages.error(request, 'An error occurred while submitting the donation.')
+            return redirect('donate_now')
 
     return render(request, 'donor_management/donate_now.html', {'error': error})
 
