@@ -1,66 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donate Now</title>
-</head>
-    {% include 'navbar.html' %}
-<body>
-    <div class="donate-container">
-        <h1>Donate Now</h1>
-        <form action="{% url 'donate_now' %}" method="post" class="donate-form">
-            {% csrf_token %}
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <input type="number" name="amount" placeholder="Donation Amount" required>
-            <input type="submit" value="Donate">
-        </form>
-    </div>
-</body>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f4f4;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
+{% extends 'donor_management/donor_base.html' %}
 
+{% block title %}Donate Now{% endblock %}
+
+{% block content %}
+<div class="donate-container">
+    <h1>Donate Now</h1>
+    <form action="{% url 'donate_now' %}" method="post" enctype="multipart/form-data" class="donate-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="donation_name">Donation Name <span style="color: red;"> (Note: If others, Please mention it on description field below.)</span></label>
+            <select id="donation_name" name="donation_name" required>
+                <option value="">Select Donation</option>
+                <option value="food">Food</option>
+                <option value="money">Money</option>
+                <option value="cloth">Cloth</option>
+                <option value="vessel">Vessel</option>
+                <option value="furniture">Furniture</option>
+                <option value="study_materials">Study Materials</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="donation_pic">Donation Picture</label>
+            <input type="file" id="donation_pic" name="donation_pic">
+        </div>
+        <div class="form-group">
+            <label for="collection_loc">Collection Location</label>
+            <input type="text" id="collection_loc" name="collection_loc" placeholder="Location for Collection" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Special note for donation" required></textarea>
+        </div>
+        <input type="submit" value="Donate">
+    </form>
+</div>
+
+<style>
     .donate-container {
-        background-color: #ffffff;
-        padding: 40px;
+        background-color: transparent;
+        padding: 20px;
         border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         width: 100%;
         text-align: center;
-        margin-left: 270px;
+        margin: 20px auto;
     }
 
     h1 {
         color: #333;
         margin-bottom: 20px;
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 600;
     }
 
     .donate-form {
         display: flex;
         flex-direction: column;
+        gap: 5px;
     }
 
-    .donate-form input[type="text"],
-    .donate-form input[type="email"],
-    .donate-form input[type="number"] {
-        padding: 10px;
+    .form-group {
+        text-align: left;
         margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="number"],
+    .form-group input[type="file"],
+    .form-group select,
+    .form-group textarea {
+        padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
         font-size: 16px;
         width: 100%;
+    }
+
+    .form-group textarea {
+        height: 100px;
+        resize: vertical;
     }
 
     .donate-form input[type="submit"] {
@@ -78,4 +104,17 @@
         background-color: #218838;
     }
 </style>
-</html>
+{% endblock %}
+
+{% if error == "no" %}
+<script>
+    alert("Collection request has been submitted. We will contact you soon.");
+    window.location.href = "{% url 'donation_history' %}";
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    alert("Something went wrong, Please try again...");
+</script>
+{% endif %}

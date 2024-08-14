@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Donor Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <div class="user-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-info">
+                    <h3>Donor Dashboard</h3>
+                    <p>{{ request.user.email }}</p>
+                </div>
+            </div>
+            <ul class="list-unstyled components">
+                <li><a href="">Home</a></li>
+                <li><a href="{% url 'donate_now' %}">Donate Now</a></li>
+                <li><a href="">Donations</a></li>
+                <li><a href="">Campaigns</a></li>
+                <li><a href="">Settings</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <!-- Toggle Button -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        Toggle Sidebar
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main>
+                {% block content %}
+                <!-- Content will be injected here from other templates -->
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+        });
+    </script>
+</body>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa; /* Consistent background color */
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+    .wrapper {
+        display: flex;
+        width: 100%;
+        transition: margin-left 0.3s;
+    }
+
+    #sidebar {
+        min-width: 250px;
+        max-width: 250px;
+        background: #7386D5;
+        color: #fff;
+        transition: all 0.3s;
+        position: fixed;
+        height: 100%;
+        overflow: auto;
+        z-index: 1000; /* Ensure the sidebar is on top */
+    }
+
+    #sidebar.active {
+        margin-left: -250px; /* Hide sidebar when active */
+    }
+
+    #sidebar .sidebar-header {
+        padding: 20px;
+        background: #6d7fcc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #sidebar .sidebar-header .user-icon {
+        font-size: 3em;
+        margin-bottom: 10px;
+    }
+
+    #sidebar .sidebar-header .user-info {
+        color: #fff;
+        font-size: 0.9em;
+    }
+
+    #sidebar ul.components {
+        padding: 0;
+        list-style: none;
+        margin: 0;
+    }
+
+    #sidebar ul li {
+        border-bottom: 1px solid #47748b;
+    }
+
+    #sidebar ul li a {
+        padding: 15px;
+        display: block;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.1em;
+        transition: background 0.3s;
+    }
+
+    #sidebar ul li a:hover {
+        background: #6d7fcc;
+    }
+
+    #content {
+        width: 100%;
+        padding: 20px;
+        min-height: 100vh;
+        margin-left: 250px;
+        background-color: #f8f9fa; /* Same background color as body */
+        transition: margin-left 0.3s, width 0.3s;
+    }
+
+    #content.active {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .navbar {
+        padding: 15px;
+        background: #ffffff;
+        border-bottom: 1px solid #ddd;
+    }
+
+    main {
+        padding: 20px;
+        background: #ffffff; /* Set background color for main content */
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        min-height: calc(100vh - 56px); /* Adjust for navbar height */
+    }
+</style>
+</html>

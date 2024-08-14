@@ -4,6 +4,13 @@ from donor_management.models import Donor, Donation
 from project_management.models import Project
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import DonorForm
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+from donor_management.models import Donor
+from django.contrib.auth import login, logout, authenticate
+
 
 
 def process_donation(donor_id, amount, project_id=None):
@@ -31,7 +38,15 @@ def process_donation(donor_id, amount, project_id=None):
 
     return donation
 
+def donor_home(request):
+    if not request.user.is_authenticated:
+        return redirect('donor_login')
+    return render(request, 'donor_management/donor_home.html')
 
+def donation_history(request):
+    if not request.user.is_authenticated:
+        return redirect('donor_login')
+    return render(request, 'donor_management/donation_history.html')
 
 def donor_list(request):
     donors = Donor.objects.all()
@@ -71,7 +86,106 @@ def donor_detail(request, pk):
     return render(request, 'donor_management/doner_detail.html', {'donor': donor})
 
 def donate_now(request):
-    return render(request, 'donor_management/donate_now.html')
+    if not request.user.is_authenticated:
+        return redirect('donor_login')
+    
+    user = request.user
+    donor = Donor.objects.get(user=user)
+    error = "no"  # Default to no error
+
+    if request.method == 'POST':
+        try:
+            donationname = request.POST.get('donation_name')
+            donationpic = request.FILES.get('donation_pic')
+            collectionloc = request.POST.get('collection_loc')
+            description = request.POST.get('description')
+
+            if not all([donationname, collectionloc, description]):
+                raise ValueError("All required fields must be filled")
+
+            Donation.objects.create(
+                donor=donor,
+                donation_name=donationname,
+                donation_pic=donationpic,
+                collection_loc=collectionloc,
+                description=description,
+                status='pending'
+            )
+        except Exception as e:
+            print(f"Error occurred: {e}")  # Log the error
+            error = "yes"
+
+    return render(request, 'donor_management/donate_now.html', {'error': error})
 
 def become_volunteer(request):
     return render(request, 'donor_management/become_volunteer.html')
+
+def Logout(request):
+    logout(request)
+    return redirect('homepage')
+
+
+def donor_login(request):
+    error = None  # Initialize error as None
+    if request.method == 'POST':
+        email = request.POST['email_id']
+        pwd = request.POST['password']
+        user = authenticate(username=email, password=pwd)
+        if user:
+            login(request, user)
+            return redirect('donor_home')
+        else:
+            error = "yes"
+    return render(request, 'donor_login.html', {'error': error})
+
+def donor_signup(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email_id']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        phone_number = request.POST.get('phone_number')
+        address = request.POST.get('address')
+        district = request.POST.get('district')
+        country = request.POST.get('country')
+
+        # Check if passwords match
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect('donor_signup')
+
+        # Additional validation (if needed)
+        if len(password) < 8:
+            messages.error(request, "Password must be at least 8 characters long.")
+            return redirect('donor_signup')
+
+        # Check if the username already exists
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already taken.")
+            return redirect('donor_signup')
+
+        # Check if the email already exists
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email is already registered.")
+            return redirect('donor_signup')
+
+        # Create the user
+        user = User.objects.create_user(username=email, email=email, password=password)
+        user.save()
+
+        # Create the Donor associated with the user
+        donor = Donor.objects.create(
+            user=user,
+            phone_number=phone_number,
+            address=address,
+            district=district,
+            country=country
+        )
+        donor.save()
+
+        # Log the user in after successful signup
+        login(request, user)
+        messages.success(request, "Signup successful. You are now logged in.")
+        return redirect('donor_login')
+
+    return render(request, 'donor_signup.html')
