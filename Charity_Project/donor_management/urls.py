@@ -14,5 +14,6 @@ urlpatterns = [
     path('donate_now/', views.donate_now, name='donate_now'),
     path('donor_home', views.donor_home, name='donor_home'),
     path('become_volunteer/', views.become_volunteer, name='become_volunteer'),
-    path('donation_history', views.donation_history, name='donation_history')
+    path('donation_history', views.donation_history, name='donation_history'),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

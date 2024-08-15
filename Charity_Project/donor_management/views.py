@@ -128,3 +128,4 @@ def donate_now(request):
 
 def become_volunteer(request):
     return render(request, 'donor_management/become_volunteer.html')
+

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.middleware.csrf import get_token
-from donor_management.models import Donor
+from donor_management.models import Donor, Donation
 from django.contrib.auth import login, logout, authenticate
 
 def homepage(request):
@@ -26,25 +26,6 @@ def signup_view(request):
 def login_as_view(request):
     return render(request, 'login_as.html')
 
-def admin_login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        pwd = request.POST['password']
-        user = authenticate(username=username, password=pwd)
-        if user.is_staff:
-            login(request, user)
-            error = "no"
-        else:
-            error = "yes"
-    return render(request, 'admin_login.html', locals())
-
-
-def admin_home(request):
-    if not request.user.is_authenticated:
-        return redirect('admin_login')
-    return render(request, 'admin_home.html')
-
-
 def volunteer_signup(request):
     return render(request, 'volunteer_signup.html')
 
@@ -54,8 +35,6 @@ def volunteer_login(request):
 def signup_as_view(request):
    return render(request, 'signup_as.html')
 
-def admin_signup(request):
-    return render(request, 'admin_signup.html')
 
 
 # Donor login and signup credentials 
@@ -124,6 +103,35 @@ def donor_signup(request):
 
     return render(request, 'donor_signup.html')
 
+# For admin credentials and permissions
+def admin_signup(request):
+    return render(request, 'admin_signup.html')
+
+
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        pwd = request.POST['password']
+        user = authenticate(username=username, password=pwd)
+        if user.is_staff:
+            login(request, user)
+            error = "no"
+        else:
+            error = "yes"
+    return render(request, 'admin_login.html', locals())
+
+
+def admin_home(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    return render(request, 'admin_home.html')
+
+
+def pending_donations(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    donations = Donation.objects.filter(status='pending')
+    return render(request, 'pending_donation.html', {'donations':donations})
 
 # Logout for all users.
 def Logout(request):

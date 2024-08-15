@@ -21,7 +21,7 @@ from .views import *
 urlpatterns = [
     path('', homepage, name='homepage'),
     path('admin/', admin.site.urls),
-    path('doner/', include('donor_management.urls')),
+    path('donor/', include('donor_management.urls')),
     path('project/', include('project_management.urls')),
     path('finance/', include('finance_management.urls')),
 
@@ -31,10 +31,14 @@ urlpatterns = [
     path('about/', about_view, name='about'),
     path('contact/', contact_view, name='contact'),
 
-    #for admin, volunteer and doner login
+    #for admin
     path('admin_login/', admin_login, name='admin_login'),
     path('admin_signup/', admin_signup, name='admin_signup'),
     path('admin_home/', admin_home, name='admin_home'),
+    path('pending_donations', pending_donations, name='pending_donations'),
+
+
+    #For Volunteer 
     path('volunteer_signup/', volunteer_signup, name='volunteer_signup'),
     path('volunteer_login/', volunteer_login, name='volunteer_login'),
 
