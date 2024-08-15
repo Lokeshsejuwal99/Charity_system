@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Donor Dashboard{% endblock %}</title>
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
                     <i class="fas fa-user-circle"></i>
                 </div>
                 <div class="user-info">
-                    <h3>Donor Dashboard</h3>
+                    <h3>Admin Dashboard</h3>
                     <p>{{ request.user.email }}</p>
                 </div>
             </div>
@@ -59,10 +59,6 @@
             });
         });
     </script>
-
-{% block extra_js %}
-<!-- Any extra JS can be included here -->
-{% endblock %}
 </body>
 <style>
     body {

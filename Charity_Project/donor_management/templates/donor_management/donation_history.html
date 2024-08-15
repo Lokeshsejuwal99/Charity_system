@@ -16,8 +16,33 @@
         </div>
     {% endif %}
     
-    <!-- Your donation history content here -->
-
+    <table class="donation-history-table" id="example">
+        <thead>
+            <tr>
+                <th>S.N</th>
+                <th>Donation Name</th>
+                <th>Donation Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for donation in donations %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ donation.donation_name }}</td>
+                <td>{{ donation.created_at|date:"Y-m-d" }}</td>
+                <td>{{ donation.status }}</td>
+                <td>
+                    <!-- Example action buttons -->
+                    <a href="" class="btn btn-primary">View</a>
+                    <a href="" class="btn btn-warning">Edit</a>
+                    <a href="" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this donation?');">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 <style>
@@ -38,20 +63,74 @@
         font-weight: 600;
     }
 
-    .alert {
-        padding: 10px;
-        margin-bottom: 10px;
+    .donation-history-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    .donation-history-table th, .donation-history-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .donation-history-table th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .btn {
+        padding: 5px 10px;
+        text-decoration: none;
         border-radius: 5px;
+        margin: 2px;
+        display: inline-block;
     }
 
-    .alert-success {
-        background-color: #d4edda;
-        color: #155724;
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
     }
 
-    .alert-error {
-        background-color: #f8d7da;
-        color: #721c24;
+    .btn-warning {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
     }
 </style>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.1/css/buttons.dataTables.css">
+<!-- Ensure scripts have proper quotes around URLs -->
+ 
+ {% block extra_js %}
+    
+ 
+ <script src="https://code.jquery.com/jquery-3.7.1.js" defer></script>
+ <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js" defer></script>
+ <script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js" defer></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" defer></script>
+<script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js" defer></script>
+
+<script>
+    $(document).ready(function() {
+        new DataTable('#example', {
+            layout: {
+                topStart: {
+                    buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+                }
+            }
+        });
+    });
+</script>
+
 {% endblock %}
+{% endblock %}
+

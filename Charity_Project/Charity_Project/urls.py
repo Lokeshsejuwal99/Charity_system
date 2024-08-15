@@ -33,7 +33,13 @@ urlpatterns = [
 
     #for admin, volunteer and doner login
     path('admin_login/', admin_login, name='admin_login'),
+    path('admin_signup/', admin_signup, name='admin_signup'),
+    path('admin_home/', admin_home, name='admin_home'),
     path('volunteer_signup/', volunteer_signup, name='volunteer_signup'),
     path('volunteer_login/', volunteer_login, name='volunteer_login'),
-    path('admin_signup/', admin_signup, name='admin_signup'),
+
+    #For Donor login and signup 
+    path('donor_login/', donor_login, name='donor_login'),
+    path('donor_signup/', donor_signup, name='donor_signup'),
+    path('logout', Logout, name='logout'),
 ]

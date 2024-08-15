@@ -28,21 +28,7 @@
     </div>
     
 </body>
-    {% if error == "no" %}
-    <script>
-        alert("Logged in successfully");
-        window.location.href = "{% url 'donor_home' %}";
-    </script>
-    {% endif %}
-    
-    {% if error == "yes" %}
-    <script>
-        alert("Invalid Login Credentials, Try again...");
-    </script>
-    {% endif %}
-        
 <style>
- /* login.css */
 
 /* Base styles */
 body {
@@ -119,3 +105,16 @@ h2 {
 
 </style>
 </html>
+{% if error == "no" %}
+<script>
+    alert("Logged in successfully");
+    window.location.href = "{% url 'admin_home' %}";
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    alert("Invalid Login Credentials, Try again...");
+</script>
+{% endif %}
+    
