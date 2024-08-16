@@ -133,6 +133,13 @@ def pending_donations(request):
     donations = Donation.objects.filter(status='pending')
     return render(request, 'pending_donation.html', {'donations':donations})
 
+def view_donation(request, pid):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    
+    donation = Donation.objects.get(id=pid)
+    return render(request, 'view_donation.html', {'donation':donation})
+
 # Logout for all users.
 def Logout(request):
     logout(request)
