@@ -41,7 +41,7 @@ def process_donation(donor_id, amount, project_id=None):
 def donor_home(request):
     if not request.user.is_authenticated:
         return redirect('donor_login')
-    return render(request, 'donor_management/donor_home.html')
+    return render(request, 'donor_management/donor_home.html')  
 
 def donation_history(request):
     if not request.user.is_authenticated:
