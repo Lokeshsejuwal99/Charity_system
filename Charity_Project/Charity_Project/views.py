@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.middleware.csrf import get_token
 from donor_management.models import Donor, Donation
 from django.contrib.auth import login, logout, authenticate
+from datetime import date
 
 def homepage(request):
  return render(request, 'homepage.html')
@@ -53,7 +54,8 @@ def donor_login(request):
 
 def donor_signup(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        firstname = request.POST['first_name']
+        lastname = request.POST['last_name']
         email = request.POST['email_id']
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
@@ -73,7 +75,7 @@ def donor_signup(request):
             return redirect('donor_signup')
 
         # Check if the username already exists
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(email=email).exists():
             messages.error(request, "Username already taken.")
             return redirect('donor_signup')
 
@@ -83,7 +85,7 @@ def donor_signup(request):
             return redirect('donor_signup')
 
         # Create the user
-        user = User.objects.create_user(username=email, email=email, password=password)
+        user = User.objects.create_user(username=email, email=email, password=password, first_name=firstname, last_name=lastname)
         user.save()
 
         # Create the Donor associated with the user
@@ -136,9 +138,25 @@ def pending_donations(request):
 def view_donation(request, pid):
     if not request.user.is_authenticated:
         return redirect('admin_login')
-    
     donation = Donation.objects.get(id=pid)
-    return render(request, 'view_donation.html', {'donation':donation})
+
+    if request.method == "POST":
+        status = request.POST['status']
+        adminremark = request.POST['adminremark']
+
+        try:
+            donation.status = status
+            donation.admin_remarks = adminremark
+            donation.updated_at = date.today()
+            donation.save()
+            
+            return render(request, 'view_donation.html', {'donation': donation, 'error': 'no'})
+        except Exception as e:
+            return render(request, 'view_donation.html', {'donation': donation, 'error': 'yes'})
+    else:
+        return render(request, 'view_donation.html', {'donation': donation})
+
+
 
 # Logout for all users.
 def Logout(request):

@@ -213,4 +213,17 @@
     }
   }
 </style>
+
+{% if error == "no" %}
+<script>
+    alert("Status and admin remarks updated successfully");
+    window.location.href = "{% url 'view_donation' donation.id %}";
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    alert("Something went wrong, Please try again...");
+</script>
+{% endif %} 
 {% endblock %}
