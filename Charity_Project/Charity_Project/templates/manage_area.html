@@ -1,0 +1,128 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+    Manage Donation Areas
+{% endblock %}
+
+{% block content %}
+<div class="navbar">
+    <h2>Manage Donation Areas</h2>
+</div>
+<main>
+    {% if area %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Area Name</th>
+                    <th>Description</th>
+                    <th>Creation Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for area in area %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ area.area_name }}</td>
+                    <td class="description-cell">{{ area.description }}</td>
+                    <td>{{ area.created_at }}</td>
+                    <td>
+                        <a href="" class="btn btn-edit">Edit</a>
+                        <a href="" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this area?');">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert">
+            No donation areas found.
+        </div>
+    {% endif %}
+</main>
+
+<style>
+    /* Navbar styles */
+    .navbar h2 {
+        color: #2648e1; /* Matching header color */
+        font-size: 24px;
+        margin: 0;
+    }
+
+    /* Main content area */
+    main {
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        min-height: calc(100vh - 56px);
+    }
+
+    /* Table styles */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        table-layout: fixed; /* Fix the table layout to avoid stretching */
+    }
+
+    .table th, .table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+        font-size: 16px;
+        vertical-align: top;
+        word-wrap: break-word; /* Ensure text wraps within the cell */
+    }
+
+    .table th {
+        background-color: #2648e1;
+        color: #fff;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .description-cell {
+        white-space: normal; /* Allow text to wrap within the description cell */
+        overflow-wrap: break-word; /* Handle long words */
+    }
+
+    /* Button styles */
+    .btn {
+        padding: 8px 12px;
+        border-radius: 4px;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-edit {
+        background-color: #2648e1;
+        margin-right: 1px;
+    }
+
+    .btn-edit:hover {
+        background-color: #1e3bba;
+    }
+
+    .btn-delete {
+        background-color: #f44336;
+    }
+
+    .btn-delete:hover {
+        background-color: #d32f2f;
+    }
+
+    .alert {
+        padding: 10px;
+        background-color: #f44336;
+        color: white;
+        margin-top: 20px;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}

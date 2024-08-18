@@ -36,7 +36,11 @@ urlpatterns = [
     path('admin_signup/', admin_signup, name='admin_signup'),
     path('admin_home/', admin_home, name='admin_home'),
     path('pending_donations/', pending_donations, name='pending_donations'),
+    path('accepted_donations/', accepted_donations, name='accepted_donations'),
     path('view_donation/<int:pid>/', view_donation, name='view_donation'),
+    path('add_area/', add_donation_area, name='add_area'),
+    path('manage_area/', manage_donation_area, name='manage_area'),
+
 
 
     #For Volunteer 

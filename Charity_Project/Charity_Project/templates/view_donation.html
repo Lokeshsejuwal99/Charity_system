@@ -82,7 +82,7 @@
       {% else %}
       <tr>
         <th>Status</th>
-        <td>{{ donation.status }}</td>
+        <td style="text-transform: capitalize;">{{ donation.status }}</td>
         <th>Updated at</th>
         <td>{{ donation.updated_at | date:"M d, Y H:i" }}</td>
       </tr>

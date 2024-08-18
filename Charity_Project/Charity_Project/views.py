@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.middleware.csrf import get_token
-from donor_management.models import Donor, Donation
+from donor_management.models import Donor, Donation, DonationArea
 from django.contrib.auth import login, logout, authenticate
 from datetime import date
 
@@ -133,7 +133,14 @@ def pending_donations(request):
     if not request.user.is_authenticated:
         return redirect('admin_login')
     donations = Donation.objects.filter(status='pending')
-    return render(request, 'pending_donation.html', {'donations':donations})
+    return render(request, 'pending_donation.html', locals())
+
+
+def accepted_donations(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    donations = Donation.objects.filter(status='accept')
+    return render(request, 'accepted_donations.html',  locals())
 
 def view_donation(request, pid):
     if not request.user.is_authenticated:
@@ -149,7 +156,7 @@ def view_donation(request, pid):
             donation.admin_remarks = adminremark
             donation.updated_at = date.today()
             donation.save()
-            
+
             return render(request, 'view_donation.html', {'donation': donation, 'error': 'no'})
         except Exception as e:
             return render(request, 'view_donation.html', {'donation': donation, 'error': 'yes'})
@@ -157,6 +164,28 @@ def view_donation(request, pid):
         return render(request, 'view_donation.html', {'donation': donation})
 
 
+def add_donation_area(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    
+    if request.method == "POST":
+        areaname = request.POST['areaname']
+        description = request.POST['description']
+        try:
+            DonationArea.objects.create(area_name=areaname, description=description)
+            error = "no"
+        except:
+            error = "yes"
+
+    return render(request, 'add_area.html', locals())
+
+
+
+def manage_donation_area(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    area = DonationArea.objects.all()
+    return render(request, 'manage_area.html',  locals())
 
 # Logout for all users.
 def Logout(request):

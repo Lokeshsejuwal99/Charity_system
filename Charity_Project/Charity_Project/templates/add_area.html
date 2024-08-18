@@ -1,0 +1,110 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+    Add Donation Area
+{% endblock %}
+
+{% block content %}
+<div class="navbar">
+    <h2>Add Donation Area</h2>
+</div>
+<main>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="areaname">Area Name:</label>
+            <input type="text" id="areaname" name="areaname" class="input-field" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" class="input-field" required></textarea>
+        </div>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+</main>
+
+<style>
+    /* Styles inherited from the theme */
+    .navbar h2 {
+        color: #2648e1; /* Matching header color */
+        font-size: 24px;
+        margin: 0;
+    }
+
+    main {
+        padding: 20px;
+        background: #ffffff; /* Background consistent with the main theme */
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        min-height: calc(100vh - 56px); /* Adjust for navbar height */
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+
+    .input-field:focus {
+        border-color: #2648e1; /* Focus color matches theme */
+        outline: none;
+    }
+
+    .btn {
+        background-color: #2648e1; /* Button color consistent with the sidebar */
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #1e3bba; /* Darker shade on hover */
+    }
+
+    .alert {
+        padding: 10px;
+        background-color: #f44336; /* Error alert color */
+        color: white;
+        margin-bottom: 15px;
+        border-radius: 4px;
+    }
+
+    .alert-success {
+        padding: 10px;
+        background-color: #4CAF50; /* Success alert color */
+        color: white;
+        margin-bottom: 15px;
+        border-radius: 4px;
+    }
+</style>
+
+    {% if error == "no" %}
+        <div class="alert alert-success">
+            Donation area added successfully.
+        </div>
+    {% elif error == "yes" %}
+        <div class="alert">
+            An error occurred while adding the donation area. Please try again.
+        </div>
+    {% endif %}
+
+{% endblock %}
