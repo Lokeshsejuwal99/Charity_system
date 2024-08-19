@@ -1,0 +1,113 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+    Edit Donation Area
+{% endblock %}
+
+{% block content %}
+<div class="navbar">
+    <h2>Edit Donation Area</h2>
+</div>
+<main>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="areaname">Area Name:</label>
+            <input type="text" id="areaname" name="areaname" class="input-field" value="{{ area.area_name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" class="input-field" required>{{ area.description }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="created_at">Creation Date:</label>
+            <input type="text" id="created_at" name="created_at" class="input-field" value="{{ area.created_at }}" disabled>
+        </div>
+        <button type="submit" class="btn">Update</button>
+        <a href="{% url 'manage_area' %}" class="btn btn-cancel">Cancel</a>
+    </form>
+</main>
+
+<style>
+    /* Navbar styles */
+    .navbar h2 {
+        color: #2648e1;
+        font-size: 24px;
+        margin: 0;
+    }
+
+    /* Main content area */
+    main {
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        min-height: calc(100vh - 56px);
+    }
+
+    /* Form styles */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+
+    .input-field:focus {
+        border-color: #2648e1;
+        outline: none;
+    }
+
+    .btn {
+        background-color: #2648e1;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #1e3bba;
+    }
+
+    .btn-cancel {
+        background-color: #f44336;
+        margin-left: 10px;
+    }
+
+    .btn-cancel:hover {
+        background-color: #d32f2f;
+    }
+</style>
+
+{% if error == "no" %}
+<script>
+    alert("Donation area updated successfully.");
+    window.location.href = "{% url 'manage_area' %}";
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    alert("An error occurred while updating the donation area. Please try again.");
+</script>
+{% endif %}
+
+{% endblock %}

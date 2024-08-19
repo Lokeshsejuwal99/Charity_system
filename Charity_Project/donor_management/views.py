@@ -54,10 +54,6 @@ def donation_history(request):
     return render(request, 'donor_management/donation_history.html', {'donations': donations})
 
 
-def donor_list(request):
-    donors = Donor.objects.all()
-    return render(request, 'donor_management/donor_list.html', {'donors': donors})
-
 def add_donor(request):
     if request.method == 'POST':
         form = DonorForm(request.POST)

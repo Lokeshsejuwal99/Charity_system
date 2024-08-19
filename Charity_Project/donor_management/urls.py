@@ -5,7 +5,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.donor_list, name='donor_list'),
     path('add/', views.add_donor, name='add_donor'),
     path('doner/<int:pk>/', views.donor_detail, name='donor_detail'),
     path('edit/<int:donor_id>/', views.edit_donor, name='donor_update'),

@@ -40,7 +40,10 @@ urlpatterns = [
     path('view_donation/<int:pid>/', view_donation, name='view_donation'),
     path('add_area/', add_donation_area, name='add_area'),
     path('manage_area/', manage_donation_area, name='manage_area'),
-
+    path('edit_donation_area/<int:id>', edit_donation_area, name='edit_donation_area'),
+    path('delete-area/<int:area_id>/', delete_area, name='delete_area'),
+    path('manage_donors/', manage_donors, name='manage_donors'),
+    path('view_donor_details/', view_donors_details, name='view_donors_details'),
 
 
     #For Volunteer 

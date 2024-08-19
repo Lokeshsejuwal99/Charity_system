@@ -187,7 +187,79 @@ def manage_donation_area(request):
     area = DonationArea.objects.all()
     return render(request, 'manage_area.html',  locals())
 
+
+def edit_donation_area(request, id):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    area = DonationArea.objects.get(id=id)
+    if request.method == "POST":
+        areaname = request.POST['areaname']
+        description = request.POST['description']
+        area.area_name = areaname
+        area.description = description
+        try:
+            area.save()
+            error = "no"
+        except:
+            error = "yes"
+
+    return render(request, 'edit_donation_area.html', locals())
+
+def delete_area(request, area_id):
+    DonationArea.objects.get(id=area_id).delete()
+    return redirect('manage_area')
+    
+
+def manage_donors(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    donors = Donor.objects.all()
+    return render(request, 'manage_donors.html',  locals())
+
+def view_donors_details(request, id):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    
+    donor = Donor.objects.get(id=id)
+
+    return render(request, 'view_donors_details.html', locals())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Logout for all users.
 def Logout(request):
     logout(request)
     return redirect('homepage')
+
+
