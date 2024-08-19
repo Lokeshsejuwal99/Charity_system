@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.middleware.csrf import get_token
-from donor_management.models import Donor, Donation, DonationArea
+from donor_management.models import Donor, Donation, DonationArea, Volunteer
 from django.contrib.auth import login, logout, authenticate
 from datetime import date
 
@@ -26,9 +26,6 @@ def signup_view(request):
 
 def login_as_view(request):
     return render(request, 'login_as.html')
-
-def volunteer_signup(request):
-    return render(request, 'volunteer_signup.html')
 
 def volunteer_login(request):
     return render(request, 'volunteer_login.html')
@@ -220,15 +217,63 @@ def view_donors_details(request, id):
     if not request.user.is_authenticated:
         return redirect('admin_login')
     
-    donor = Donor.objects.get(id=id)
-
+    donors = Donor.objects.get(id=id)
     return render(request, 'view_donors_details.html', locals())
 
 
+def delete_donors(request, donor_id):
+    Donor.objects.get(id=donor_id).delete()
+    return redirect('manage_donors')
+    
+
+# For Volunteers 
 
 
+def volunteer_signup(request):
+    if request.method == 'POST':
+        firstname = request.POST.get('first_name')
+        lastname = request.POST.get('last_name')
+        email = request.POST.get('email_id')
+        contact = request.POST.get('phone_number')
+        address = request.POST.get('address')
+        aboutme = request.POST.get('aboutme')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
 
+        # Check if passwords match
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect('volunteer_signup')
 
+        # Check if password length is sufficient
+        if len(password) < 8:
+            messages.error(request, "Password must be at least 8 characters long.")
+            return redirect('volunteer_signup')
+
+        # Check if the email already exists
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email is already registered.")
+            return redirect('volunteer_signup')
+
+        # Create the user
+        user = User.objects.create_user(username=email, email=email, password=password, first_name=firstname, last_name=lastname)
+        user.save()
+
+        # Create the Volunteer associated with the user
+        Volunteer.objects.create(
+            user=user,
+            contact=contact,
+            address=address,
+            aboutme=aboutme,
+            status='pending'
+        )
+
+        # Log the user in after successful signup
+        login(request, user)
+        messages.success(request, "Signup successful. You are now logged in.")
+        return redirect('volunteer_login')  # Adjust the redirect URL name if necessary
+
+    return render(request, 'volunteer_signup.html')
 
 
 

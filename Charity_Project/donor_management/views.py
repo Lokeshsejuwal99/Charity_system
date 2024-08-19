@@ -64,28 +64,6 @@ def add_donor(request):
         form = DonorForm()
     return render(request, 'donor_management/add_donor.html', {'form': form})
 
-def edit_donor(request, donor_id):
-    donor = get_object_or_404(Donor, id=donor_id)
-    if request.method == 'POST':
-        form = DonorForm(request.POST, instance=donor)
-        if form.is_valid():
-            form.save()
-            return redirect('donor_list')
-    else:
-        form = DonorForm(instance=donor)
-    return render(request, 'donor_management/edit_donor.html', {'form': form})
-
-def delete_donor(request, donor_id):
-    donor = get_object_or_404(Donor, id=donor_id)
-    if request.method == 'POST':
-        donor.delete()
-        return redirect('donor_list')
-    return render(request, 'donor_management/delete_doner.html', {'donor': donor})
-
-
-def donor_detail(request, pk):
-    donor = get_object_or_404(Donor, pk=pk)
-    return render(request, 'donor_management/doner_detail.html', {'donor': donor})
 
 def donate_now(request):
     if not request.user.is_authenticated:
