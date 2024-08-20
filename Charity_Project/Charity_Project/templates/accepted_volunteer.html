@@ -1,0 +1,128 @@
+ {% extends 'admin_base.html' %}
+
+ {% block title %}
+ Accepted Volunteers List
+ {% endblock %}
+
+ {% block content %}
+ <div class="navbar">
+     <h2>Accepted Volunteers List</h2>
+ </div>
+ <main>
+     {% if volunteers %}
+         <table class="table">
+             <thead>
+                 <tr>
+                     <th>S.N</th>
+                     <th>Username</th>
+                     <th>Email</th>
+                     <th>Status</th>
+                     <th>Address</th>
+                     <th>Created Date</th>
+                     <th>Actions</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 {% for volunteer in volunteers %}
+                 <tr>
+                     <td>{{ forloop.counter }}</td>
+                     <td>{{ volunteer.user.first_name }} {{ volunteer.user.last_name }}</td>
+                     <td>{{ volunteer.user.email }}</td>
+                     <td>{{ volunteer.status }}</td>
+                     <td>{{ volunteer.address }}</td>
+                     <td>{{ volunteer.created_at|date:"F j, Y" }}</td> 
+                     <td>
+                         <a href="{% url 'view_volunteer_details' volunteer.id %}" class="btn btn-edit">View Details</a>
+                         <form action="{% url 'delete_volunteer' volunteer.id %}" method="POST" style="display:inline;">
+                             {% csrf_token %}
+                         </form>
+                     </td>
+                 </tr>
+                 {% endfor %}
+             </tbody>
+         </table>
+     {% else %}
+         <div class="alert">
+             No accepted volunteers found.
+         </div>
+     {% endif %}
+ </main>
+
+ <style>
+     .navbar h2 {
+         color: #2648e1;
+         font-size: 24px;
+         margin: 0;
+     }
+
+     main {
+         padding: 20px;
+         background: transparent;
+         border-radius: 5px;
+         min-height: calc(100vh - 56px);
+         overflow-x: auto;
+     }
+
+     .table {
+         width: 100%;
+         border-collapse: collapse;
+         margin-top: 20px;
+     }
+
+     .table th, .table td {
+         padding: 10px;
+         border: 1px solid #ddd;
+         text-align: left;
+         font-size: 14px;
+         white-space: nowrap;
+     }
+
+     .table th {
+         background-color: #2648e1;
+         color: #fff;
+         font-weight: 600;
+     }
+
+     .table tbody tr:nth-child(even) {
+         background-color: #f2f2f2;
+     }
+
+     .btn {
+         padding: 6px 10px;
+         border-radius: 4px;
+         color: white;
+         text-decoration: none;
+         font-size: 13px;
+         transition: background-color 0.3s ease;
+         border: none;
+     }
+
+     .btn-edit {
+         background-color: #15dd07;
+     }
+
+     .alert {
+         padding: 10px;
+         background-color: #f44336;
+         color: white;
+         margin-top: 20px;
+         border-radius: 4px;
+     }
+
+     @media (max-width: 768px) {
+         .table th, .table td {
+             font-size: 12px;
+             padding: 8px;
+         }
+
+         .btn {
+             padding: 4px 8px;
+             font-size: 12px;
+         }
+
+         .navbar h2 {
+             font-size: 20px;
+         }
+     }
+ </style>
+ {% endblock %}

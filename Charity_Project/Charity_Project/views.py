@@ -159,6 +159,34 @@ def view_donation(request, pid):
         return render(request, 'view_donation.html', {'donation': donation})
 
 
+def accepted_donation_details(request, pid):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    donation = Donation.objects.get(id=pid)
+    volunteer = Volunteer.objects.all()
+    donationarea = DonationArea.objects.all()
+
+    if request.method == "POST":
+        donationareaid = request.POST['donationareaid']
+        volunteerid = request.POST['volunteerid']
+        da = DonationArea.objects.get(id=donationareaid)
+        v = Volunteer.objects.get(id=volunteerid)
+
+        try:
+            donation.donation_area = da
+            donation.volunteer = v
+            donation.status = "Volunteer Allocated"
+            donation.updated_at = date.today()
+            donation.save()
+
+            return render(request, 'accepted_donations_details.html', locals())
+        except Exception as e:
+            return render(request, 'accepted_donations_details.html', locals())
+    else:
+        return render(request, 'accepted_donations_details.html', locals())
+
+
+
 def add_donation_area(request):
     if not request.user.is_authenticated:
         return redirect('admin_login')
@@ -306,7 +334,30 @@ def volunteer_requests(request):
     if not request.user.is_authenticated:
         return redirect('admin_login')
     volunteers = Volunteer.objects.filter(status='pending')
-    return render(request, 'volunteer_requests.html',  locals())
+    return render(request, 'pending_volunteers.html',  locals())
+
+
+def accepted_volunteer(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    volunteers = Volunteer.objects.filter(status='accept')
+    return render(request, 'accepted_volunteer.html',  locals())
+
+
+
+def rejected_volunteer(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    volunteers = Volunteer.objects.filter(status='reject')
+    return render(request, 'rejected_volunteer.html',  locals())
+
+
+
+def all_volunteer(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    volunteers = Volunteer.objects.all()
+    return render(request, 'all_volunteers.html',  locals())
 
 
 def view_volunteer_details(request, id):
