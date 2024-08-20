@@ -50,6 +50,10 @@ urlpatterns = [
     #For Volunteer 
     path('volunteer_signup/', volunteer_signup, name='volunteer_signup'),
     path('volunteer_login/', volunteer_login, name='volunteer_login'),
+    path('volunteer_base/', volunteer_base, name='volunteer_base'),
+    path('volunteer_requests/', volunteer_requests, name='volunteer_requests'),
+    path('view_volunteer_details/<int:id>/', view_volunteer_details, name='view_volunteer_details'),
+    path('delete_volunteer/<int:id>/', delete_volunteer, name='delete_volunteer'),
 
     #For Donor login and signup 
     path('donor_login/', donor_login, name='donor_login'),

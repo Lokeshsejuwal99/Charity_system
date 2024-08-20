@@ -29,6 +29,14 @@
                     </ul>
                 </li>
                 <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Volunteer Management</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'volunteer_requests' %}" style="background-color: rgb(235, 38, 38);">Volunteer Request</a></li>
+                        <li><a href="{% url 'accepted_donations' %}" style="background-color: rgb(5, 188, 5);">Accepted Volunteers</a></li>
+                        <li><a href="{% url 'accepted_donations' %}" style="background-color: rgb(219, 201, 0);">All Volunteers</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle">Donation Area</a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'add_area' %}">Add Donation Area</a></li>
@@ -46,9 +54,8 @@
             <!-- Toggle Button -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="fas fa-align-left"></i>
-                        Toggle Sidebar
+                    <button type="button" id="sidebarCollapse" class="btn btn-info" style="background-color: rgb(0, 30, 255);">
+                        <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
                     </button>
                 </div>
             </nav>

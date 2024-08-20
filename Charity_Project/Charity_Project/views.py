@@ -27,8 +27,6 @@ def signup_view(request):
 def login_as_view(request):
     return render(request, 'login_as.html')
 
-def volunteer_login(request):
-    return render(request, 'volunteer_login.html')
 
 def signup_as_view(request):
    return render(request, 'signup_as.html')
@@ -276,23 +274,67 @@ def volunteer_signup(request):
     return render(request, 'volunteer_signup.html')
 
 
+def volunteer_login(request):
+    error = None
+    if request.method == 'POST':
+        email = request.POST['email_id']
+        pwd = request.POST['password']
+        user = authenticate(username=email, password=pwd)
+        if user:
+            try:
+                user1 = Volunteer.objects.get(user=user)
+                if user1.status != "pending":
+                    login(request, user)
+                    error = "no"
+                else:
+                    error = "not"
+            except:
+                error = "yes"
+        else:
+            error = "yes"
+    return render(request, 'volunteer_login.html', locals())
 
 
 
+def volunteer_base(request):
+    if not request.user.is_authenticated:
+        return redirect('volunteer_login')
+    return render(request, 'volunteer_base.html')
 
 
+def volunteer_requests(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    volunteers = Volunteer.objects.filter(status='pending')
+    return render(request, 'volunteer_requests.html',  locals())
 
 
+def view_volunteer_details(request, id):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')
+    volunteer = Volunteer.objects.get(id=id)
+
+    if request.method == "POST":
+        status = request.POST['status']
+        adminremark = request.POST['adminremark']
+
+        try:
+            volunteer.status = status
+            volunteer.admin_remarks = adminremark
+            volunteer.updated_at = date.today()
+            volunteer.save()
+
+            return render(request, 'view_volunteer_details.html', {'volunteer': volunteer, 'error': 'no'})
+        except Exception as e:
+            return render(request, 'view_volunteer_details.html', {'volunteer': volunteer, 'error': 'yes'})
+    else:
+        return render(request, 'view_volunteer_details.html', {'volunteer': volunteer})
 
 
-
-
-
-
-
-
-
-
+def delete_volunteer(request, id):
+    Donor.objects.get(id=id).delete()
+    # return redirect('manage_donors')
+    
 
 
 

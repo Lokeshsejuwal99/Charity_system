@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Donor Dashboard{% endblock %}</title>
+    <title>{% block title %}Volunteer Dashboard{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
                     <i class="fas fa-user-circle"></i>
                 </div>
                 <div class="user-info">
-                    <h3>Donor Dashboard</h3>
+                    <h3>Volunteer Dashboard</h3>
                     <p>{{ request.user.email }}</p>
                 </div>
             </div>
@@ -34,8 +34,8 @@
             <!-- Toggle Button -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info" style="background-color: blue;">
-                        <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                    <button type="button" id="sidebarCollapse" class="btn btn-info" style="background-color: rgb(0, 68, 255);">
+                     <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
                     </button>
                 </div>
             </nav>
@@ -103,7 +103,7 @@
     #sidebar {
         min-width: 250px;
         max-width: 250px;
-        background: #7386D5;
+        background: hwb(225 2% 13% / 0.955);
         color: #fff;
         transition: all 0.3s;
         position: fixed;
@@ -118,7 +118,7 @@
 
     #sidebar .sidebar-header {
         padding: 20px;
-        background: #6d7fcc;
+        background: #9b9929;
         display: flex;
         align-items: center;
         justify-content: center;

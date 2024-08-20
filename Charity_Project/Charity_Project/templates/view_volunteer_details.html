@@ -1,0 +1,223 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+    Volunteer Details - {{ volunteer.user.username }}
+{% endblock %}
+
+{% block content %}
+<div class="volunteer-details-container">
+    <h1>Volunteer Details</h1>
+
+    <div class="details-section">
+        <table class="details-table">
+            <tr>
+                <th>Full Name</th>
+                <td>{{ volunteer.user.first_name }} {{ volunteer.user.last_name }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ volunteer.user.email }}</td>
+            </tr>
+            <tr>
+                <th>Contact</th>
+                <td>{{ volunteer.contact }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ volunteer.address }}</td>
+            </tr>
+            <tr>
+                <th>About Me</th>
+                <td>{{ volunteer.aboutme }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ volunteer.get_status_display }}</td>
+            </tr>
+            <tr>
+                <th>Admin Remarks</th>
+                <td>{{ volunteer.admin_remarks }}</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>{{ volunteer.created_at|date:"F j, Y" }}</td>
+            </tr>
+            <tr>
+                <th>Updated Date</th>
+                <td>{{ volunteer.updated_at|date:"F j, Y" }}</td>
+            </tr>
+        </table>
+    </div>
+
+    {% if volunteer.status == 'pending' %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="details-section">
+            <table class="details-table">
+                <tr>
+                    <th>Status</th>
+                    <td>
+                        <select name="status" class="form-control custom-select" required>
+                            <option value="accept">Accept</option>
+                            <option value="reject">Reject</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Admin Remarks</th>
+                    <td>
+                        <textarea name="adminremark" class="form-control custom-textarea" required></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-right">
+                        <button type="submit" class="btn btn-primary">
+                            Update <i class="fa fa-arrow-circle-right"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+    {% else %}
+    <div class="details-section">
+        <table class="details-table">
+            <tr>
+                <th>Status</th>
+                <td>{{ volunteer.get_status_display }}</td>
+            </tr>
+            <tr>
+                <th>Updated at</th>
+                <td>{{ volunteer.updated_at | date:"M d, Y H:i" }}</td>
+            </tr>
+            <tr>
+                <th>Admin Remarks</th>
+                <td>{{ volunteer.admin_remarks }}</td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .volunteer-details-container {
+        background-color: transparent;
+        padding: 20px;
+        max-width: 900px;
+        width: 100%;
+        margin: 40px auto;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    h1 {
+        color: #2c3e50;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .details-section {
+        margin-bottom: 50px;
+    }
+
+    .details-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .details-table th,
+    .details-table td {
+        border: none;
+        padding: 12px 15px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .details-table th {
+        background-color: #ecf0f1;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .details-table td {
+        background-color: #ffffff;
+        color: #34495e;
+        font-size: 16px;
+    }
+
+    .form-control.custom-select,
+    .form-control.custom-textarea {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-control.custom-textarea {
+        min-height: 80px;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+
+    @media (max-width: 768px) {
+        .details-table th,
+        .details-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .details-table th {
+            background-color: transparent;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        .details-table td {
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .text-right {
+            text-align: center;
+        }
+    }
+</style>
+
+
+{% if error == "no" %}
+<script>
+    alert("Status and admin remarks updated successfully");
+    window.location.href = "{% url 'view_volunteer_details' volunteer.id %}";
+</script>
+{% endif %}
+
+{% if error == "yes" %}
+<script>
+    alert("Something went wrong, Please try again...");
+</script>
+{% endif %} 
+{% endblock %}
