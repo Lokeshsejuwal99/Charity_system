@@ -1,0 +1,232 @@
+{% extends 'volunteer_base.html' %}
+
+{% block title %}Donation Details{% endblock %}
+
+{% block content %}
+<div class="donation-details-container">
+ <h1>Donation Details</h1>
+ 
+ <!-- Donor Details Section -->
+ <div class="details-section">
+  <h2>Donor Information</h2>
+  <table class="details-table">
+   <tr>
+    <th>Donor Name</th>
+    <td>{{ donation.donor.user.first_name }} {{ donation.donor.user.last_name }}</td>
+   </tr>
+   <tr>
+    <th>Email</th>
+    <td>{{ donation.donor.user.email }}</td>
+   </tr>
+   <tr>
+    <th>Contact Number</th>
+    <td>{{ donation.donor.phone_number }}</td>
+   </tr>
+  </table>
+ </div>
+ 
+ <!-- Donation Details Section -->
+ <div class="details-section">
+  <h2>Donation Information</h2>
+  <table class="details-table">
+   <tr>
+    <th>Donation Name</th>
+    <td>{{ donation.donation_name }}</td>
+   </tr>
+   <tr>
+    <th>Description</th>
+    <td>{{ donation.description }}</td>
+   </tr>
+   <tr>
+    <th>Donation Date</th>
+    <td>{{ donation.donation_date | date:"M d, Y" }}</td>
+   </tr>
+   <tr>
+    <th>Collection Location</th>
+    <td>{{ donation.collection_loc }}</td>
+   </tr>
+   <tr>
+    <th>Status</th>
+    <td style="text-transform: capitalize;">{{ donation.status }}</td>
+   </tr>
+   <tr>
+    <th>Updated At</th>
+    <td>{{ donation.updated_at | date:"M d, Y" }} {{ donation.updated_at | time:"H:i" }}</td>
+   </tr>
+   <tr>
+    <th>Admin Remarks</th>
+    <td colspan="3">{{ donation.admin_remarks }}</td>
+   </tr>
+  </table>
+ </div>
+ 
+ <!-- Assigned Details Section -->
+ <div class="details-section">
+  <h2>Assigned Information</h2>
+  <table class="details-table">
+   <tr>
+    <th>Donation Area</th>
+    <td style="text-transform: capitalize;">{{ donation.donation_area.area_name }}</td>
+   </tr>
+   <tr>
+    <th>Updated At</th>
+    <td>{{ donation.updated_at | date:"M d, Y" }}</td>
+   </tr>
+   <tr>
+    <th>Assigned Volunteer</th>
+    <td colspan="3">{{ donation.volunteer.user.first_name }}</td>
+   </tr>
+  </table>
+ </div>
+ 
+ <!-- Volunteer Remarks Section -->
+ <div class="details-section">
+  <h2>Volunteer Remarks</h2>
+  <table class="details-table">
+   {% if not donation.volunteer_remarks %}
+   <form method="post">
+    {% csrf_token %}
+    <tr>
+     <th>Donation Received?</th>
+     <td colspan="3">
+      <label>
+       <input type="radio" name="status" value="Donation Received" required> Yes
+      </label>
+      <label>
+       <input type="radio" name="status" value="Donation Not Received" required> No
+      </label>
+     </td>
+    </tr>
+    <tr>
+     <th>Remarks</th>
+     <td colspan="3">
+      <textarea class="form-control custom-textarea"" placeholder="Enter your remarks" name="volunteerremarks" required></textarea>
+     </td>
+    </tr>
+    <tr>
+     <td colspan="4" class="text-right">
+      <button type="submit" class="btn btn-primary">Update</button>
+     </td>
+    </tr>
+   </form>
+   {% else %}
+   <tr>
+    <th>Remarks</th>
+    <td colspan="3">{{ donation.volunteer_remarks }}</td>
+   </tr>
+   {% endif %}
+  </table>
+ </div>
+</div>
+
+<style>
+ .donation-details-container {
+  background-color: #f7f7f7;
+  padding: 20px;
+  max-width: 900px;
+  margin: 40px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+ }
+ 
+ h1, h2 {
+  color: #34495e;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+ }
+ 
+ h1 {
+  font-size: 28px;
+ }
+ 
+ h2 {
+  font-size: 22px;
+ }
+ 
+ .details-section {
+  margin-bottom: 40px;
+ }
+ 
+ .details-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+ }
+ 
+ .details-table th,
+ .details-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ecf0f1;
+  text-align: left;
+  font-size: 16px;
+  color: #2c3e50;
+ }
+ 
+ .details-table th {
+  background-color: #ecf0f1;
+  font-weight: 600;
+ }
+ 
+ .details-table td {
+  background-color: #ffffff;
+ }
+ 
+ .btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+ }
+ .form-control.custom-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-height: 80px;
+ }
+ 
+ .btn-primary {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+ }
+ 
+ .btn-primary:hover {
+  background-color: #2980b9;
+ }
+ 
+ 
+ @media (max-width: 768px) {
+  .details-table th, .details-table td {
+   display: block;
+   width: 100%;
+  }
+  
+  .details-table th {
+   background-color: transparent;
+   font-size: 14px;
+   color: #2c3e50;
+  }
+  
+  .details-table td {
+   background-color: #f9f9f9;
+   border-bottom: 1px solid #ddd;
+  }
+ }
+</style>
+
+{% if error == "no" %}
+<script>
+ alert("Volunteer status and remarks updated successfully");
+ window.location.href = "{% url 'collection_req_details' donation.id %}";
+</script>
+{% elif error == "yes" %}
+<script>
+ alert("Something went wrong, please try again...");
+</script>
+{% endif %}
+{% endblock %}

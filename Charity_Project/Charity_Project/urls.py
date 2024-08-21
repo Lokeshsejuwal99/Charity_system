@@ -34,7 +34,9 @@ urlpatterns = [
     #for admin
     path('admin_login/', admin_login, name='admin_login'),
     path('admin_signup/', admin_signup, name='admin_signup'),
-    path('admin_home/', admin_home, name='admin_home'),
+    path('admin_home/', admin_dashboard, name='admin_home'),
+    path('inquires/', inquires_view, name='inquires'),
+    path('inquiries/message/<int:message_id>/', view_message_details, name='view_message_details'),
     path('pending_donations/', pending_donations, name='pending_donations'),
     path('accepted_donations/', accepted_donations, name='accepted_donations'),
     path('view_donation/<int:pid>/', view_donation, name='view_donation'),
@@ -52,12 +54,18 @@ urlpatterns = [
     path('volunteer_signup/', volunteer_signup, name='volunteer_signup'),
     path('volunteer_login/', volunteer_login, name='volunteer_login'),
     path('volunteer_base/', volunteer_base, name='volunteer_base'),
+    path('Volunteer_home/', Volunteer_home, name='Volunteer_home'),
     path('volunteer_requests/', volunteer_requests, name='volunteer_requests'),
     path('accepted_volunteer/', accepted_volunteer, name='accepted_volunteer'),
     path('rejected_volunteer/', rejected_volunteer, name='rejected_volunteer'),
     path('all_volunteer/', all_volunteer, name='all_volunteer'),
     path('view_volunteer_details/<int:id>/', view_volunteer_details, name='view_volunteer_details'),
     path('delete_volunteer/<int:id>/', delete_volunteer, name='delete_volunteer'),
+    path('collection_req', donation_collection_requests, name='collection_req'),
+    path('collection_req_details/<int:id>/', collection_req_details, name='collection_req_details'),
+    path('donation_receive', donation_received, name='donation_receive'),
+    path('donation_not_received/', donation_not_received, name='donation_not_received'),
+
 
     #For Donor login and signup 
     path('donor_login/', donor_login, name='donor_login'),

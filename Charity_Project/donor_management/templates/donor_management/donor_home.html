@@ -1,8 +1,153 @@
-{% extends 'donor_management/donor_base.html' %}
-
-{% block title %}Donor Home{% endblock %}
+{% extends "donor_management/donor_base.html" %}
 
 {% block content %}
-<h2>Welcome to the Donor Dashboard</h2>
-<p>This is your donor home page.</p>
+<div class="donor-dashboard-container">
+    <div class="welcome-message">
+        <h1>Welcome to Your Donor Dashboard</h1>
+        <p class="donor-name">{{ user.first_name }} {{ user.last_name }}</p>
+    </div>
+    <div class="dashboard-summary">
+        <div class="summary-card">
+            <h3>Total Donations</h3>
+            <p>{{ total_donations }}</p>
+        </div>
+        <div class="summary-card">
+            <h3>Recent Donations</h3>
+            <p>{{ recent_donations }}</p>
+        </div>
+        <div class="summary-card">
+            <h3>Upcoming Events</h3>
+            <p>{{ upcoming_events }}</p>
+        </div>
+    </div>
+    <div class="recent-activities">
+        <h2>Recent Activities</h2>
+        <ul>
+            {% for activity in recent_activities %}
+            <li>{{ activity.description }} - <span>{{ activity.date }}</span></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="quick-links">
+        <h2>Quick Links</h2>
+        <ul>
+            <li><a href="{% url 'donate_now' %}">Donate Now</a></li>
+            <li><a href="">View My Donations</a></li>
+            <li><a href="">Update Profile</a></li>
+            <li><a href="">View Events</a></li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    .donor-dashboard-container {
+        margin: 20px;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .welcome-message {
+        margin-bottom: 30px;
+        text-align: center;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .welcome-message h1 {
+        font-size: 28px;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .donor-name {
+        font-size: 20px;
+        color: #7f8c8d;
+    }
+
+    .dashboard-summary {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+
+    .summary-card {
+        flex: 1 1 calc(33% - 20px);
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+    }
+
+    .summary-card h3 {
+        font-size: 18px;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .summary-card p {
+        font-size: 24px;
+        color: #3498db;
+        margin: 0;
+    }
+
+    .recent-activities {
+        margin-bottom: 30px;
+    }
+
+    .recent-activities h2 {
+        font-size: 22px;
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+
+    .recent-activities ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .recent-activities li {
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #ffffff;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .quick-links {
+        margin-bottom: 30px;
+    }
+
+    .quick-links h2 {
+        font-size: 22px;
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+
+    .quick-links ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .quick-links li {
+        margin-bottom: 10px;
+    }
+
+    .quick-links a {
+        color: #3498db;
+        text-decoration: none;
+    }
+
+    .quick-links a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .summary-card {
+            flex: 1 1 100%;
+        }
+    }
+</style>
 {% endblock %}

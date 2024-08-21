@@ -26,28 +26,28 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle"><i class="fa-solid fa-chart-column"></i> Donation Management</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'pending_donations' %}" style="background-color: rgb(235, 38, 38);">Pending Donations</a></li>
-                        <li><a href="{% url 'accepted_donations' %}" style="background-color: rgb(5, 188, 5);">Accepted Donations</a></li>
+                        <li><a href="{% url 'pending_donations' %}" style="color: #ffab02;">Pending Donations</a></li>
+                        <li><a href="{% url 'accepted_donations' %}" style="color: rgb(2, 247, 2);">Accepted Donations</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle"><i class="fa-solid fa-chart-column"></i> Volunteer Management</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'volunteer_requests' %}" style="background-color: grey;">Pending Volunteer</a></li>
-                        <li><a href="{% url 'accepted_volunteer' %}" style="background-color: grey;">Accepted Volunteers</a></li>
-                        <li><a href="{% url 'rejected_volunteer' %}" style="background-color: rgb(238, 6, 6);">Rejected Volunteers</a></li>
-                        <li><a href="{% url 'all_volunteer' %}" style="background-color: rgb(219, 201, 0);">All Volunteers</a></li>
+                        <li><a href="{% url 'volunteer_requests' %}" style="color: #ffab02">Pending Volunteer</a></li>
+                        <li><a href="{% url 'accepted_volunteer' %}" style="color: green;">Accepted Volunteers</a></li>
+                        <li><a href="{% url 'rejected_volunteer' %}" style="color: red;">Rejected Volunteers</a></li>
+                        <li><a href="{% url 'all_volunteer' %}" style="color: rgb(0, 4, 219);">All Volunteers</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle"><i class="fa-solid fa-map-location-dot"></i> Donation Area</a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'add_area' %}">Add Donation Area</a></li>
-                        <li><a href="{% url 'manage_area' %}">Manage Donation Area</a></li>
+                        <li><a href="{% url 'add_area' %}" style="color: blue;">Add Donation Area</a></li>
+                        <li><a href="{% url 'manage_area' %}" style="color: limegreen;">Manage Donation Area</a></li>
                     </ul>
                 </li>
                 <li><a href="{% url 'manage_donors' %}"> <i class="fa-solid fa-users-gear"></i> Manage Donors</a></li>
-                <li><a href=""><i class="fa-solid fa-gear"></i> Settings</a></li>
+                <li><a href="{% url 'inquires' %}"><i class="fa-solid fa-comment-dots"></i> Inquires </a></li>
                 <li><a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
             </ul>
         </nav>

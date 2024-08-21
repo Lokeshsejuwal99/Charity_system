@@ -1,11 +1,236 @@
 {% extends "admin_base.html" %}
 
-
 {% block content %}
-<h1>
-Welcome to the Admin Dashboard <br>
-<hr>
-{{ user.first_name }} {{ user.last_name }}
-</h1>
+<div class="admin-dashboard-container">
+    <div class="welcome-message">
+        <h1>Welcome to the Admin Dashboard</h1>
+        <p class="admin-name">{{ user.first_name }} {{ user.last_name }}</p>
+    </div>
+    <div class="dashboard-summary">
+        <div class="summary-card">
+            <h3>Total Donors</h3>
+            <p>{{ total_donors }}</p>
+        </div>
+        <div class="summary-card">
+            <h3>Total Campaigns</h3>
+            <p>{{ 6 }}</p>
+        </div>
+        <div class="summary-card">
+            <h3>Total Donations</h3>
+            <p>{{ total_donations }}</p>
+        </div>
+        <div class="summary-card">
+            <h3>Active Volunteers</h3>
+            <p>{{ active_volunteers }}</p>
+        </div>
+    </div>
+    <div class="charts-container">
+        <h2>Donation Trends</h2>
+        <canvas id="donationChart"></canvas>
+    </div>
+    <div class="recent-activities">
+        <h2>Recent Activities</h2>
+        <ul>
+            <li class="notification-item">
+                <span class="notification-message">New donation received from Nitesh Thapa.</span>
+                <span class="notification-date">2024-08-21</span>
+            </li>
+            <li class="notification-item">
+                <span class="notification-message">Volunteer Jane Smith signed up.</span>
+                <span class="notification-date">2024-08-20</span>
+            </li>
+        </ul>
+    </div>
+    <div class="quick-links">
+        <h2>Quick Links</h2>
+        <ul>
+            <li><a href="{% url 'manage_donors' %}">Manage Donors</a></li>
+            <li><a href="">Manage Campaigns</a></li>
+            <li><a href="">Manage Donations</a></li>
+            <li><a href="">Manage Volunteers</a></li>
+        </ul>
+    </div>
+    <div class="notifications">
+        <h2>Notifications</h2>
+        <div class="notification">
+            <p>You have 5 new donations waiting for approval.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-dashboard-container {
+        margin: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f4f6f9;
+    }
+
+    .welcome-message {
+        margin-bottom: 30px;
+        text-align: center;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .welcome-message h1 {
+        font-size: 28px;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .admin-name {
+        font-size: 20px;
+        color: #7f8c8d;
+    }
+
+    .dashboard-summary {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+
+    .summary-card {
+        flex: 1 1 calc(25% - 20px);
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+    }
+
+    .summary-card h3 {
+        font-size: 18px;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .summary-card p {
+        font-size: 24px;
+        color: #3498db;
+        margin: 0;
+    }
+
+    .charts-container, .recent-activities, .quick-links, .notifications {
+        margin-bottom: 30px;
+    }
+
+    .charts-container h2, .recent-activities h2, .quick-links h2, .notifications h2 {
+        font-size: 22px;
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+
+    .quick-links ul, .recent-activities ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .quick-links li, .recent-activities li {
+        margin-bottom: 10px;
+    }
+
+    .quick-links a {
+        color: #3498db;
+        text-decoration: none;
+    }
+
+    .quick-links a:hover {
+        text-decoration: underline;
+    }
+
+    .notification {
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+        .summary-card {
+            flex: 1 1 100%;
+        }
+    }
+
+    /* Chart Styles */
+    #donationChart {
+        width: 100%;
+        max-width: 800px; 
+        height: 500px;    
+    }
+    .recent-activities ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .recent-activities li {
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #ffffff;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+    }
+
+    .notification-item {
+        background-color: #f9f9f9;
+        border-left: 4px solid #3498db;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .notification-message {
+        font-weight: bold;
+    }
+
+    .notification-date {
+        color: #7f8c8d;
+        font-size: 12px;
+    }
+
+    .activity-category {
+        margin-bottom: 20px;
+    }
+
+    .activity-category h3 {
+        margin-bottom: 10px;
+    }
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('donationChart').getContext('2d');
+    var donationChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May'],
+            datasets: [{
+                label: 'Donations',
+                data: [12, 19, 3, 5, 2],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}
- 

@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.middleware.csrf import get_token
-from donor_management.models import Donor, Donation, DonationArea, Volunteer
+from donor_management.models import Donor, Donation, DonationArea, Volunteer, ContactMessage
 from django.contrib.auth import login, logout, authenticate
 from datetime import date
 
@@ -14,7 +14,17 @@ def about_view(request):
  return render(request, 'about.html')
 
 def contact_view(request):
- return render(request, 'contact.html')
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        ContactMessage.objects.create(name=name, email=email, message=message)
+        
+        messages.success(request, 'Your message has been sent successfully!')
+        return redirect('contact')
+
+    return render(request, 'contact.html')
 
 # For login and signup 
 
@@ -26,7 +36,6 @@ def signup_view(request):
 
 def login_as_view(request):
     return render(request, 'login_as.html')
-
 
 def signup_as_view(request):
    return render(request, 'signup_as.html')
@@ -100,6 +109,17 @@ def donor_signup(request):
 
     return render(request, 'donor_signup.html')
 
+
+
+
+
+
+
+
+
+
+"""Admin View"""
+
 # For admin credentials and permissions
 def admin_signup(request):
     return render(request, 'admin_signup.html')
@@ -118,11 +138,21 @@ def admin_login(request):
     return render(request, 'admin_login.html', locals())
 
 
-def admin_home(request):
-    if not request.user.is_authenticated:
-        return redirect('admin_login')
-    return render(request, 'admin_home.html')
+def admin_dashboard(request):
+    total_donors = Donor.objects.count()
+    # total_campaigns = Campaign.objects.count()
+    total_donations = Donation.objects.count()
+    active_volunteers = Volunteer.objects.filter(status='active').count()
 
+    context = {
+        'total_donors': total_donors,
+        # 'total_campaigns': total_campaigns,
+        'total_donations': total_donations,
+        'active_volunteers': active_volunteers,
+        'user': request.user
+    }
+
+    return render(request, 'admin_home.html', context)
 
 def pending_donations(request):
     if not request.user.is_authenticated:
@@ -251,6 +281,13 @@ def delete_donors(request, donor_id):
     Donor.objects.get(id=donor_id).delete()
     return redirect('manage_donors')
     
+def inquires_view(request):
+    messages = ContactMessage.objects.all()
+    return render(request, 'inquires.html', {'messages': messages})
+
+def view_message_details(request, message_id):
+    message = get_object_or_404(ContactMessage, id=message_id)
+    return render(request, 'inquires_details.html', {'message': message})
 
 # For Volunteers 
 
@@ -330,6 +367,13 @@ def volunteer_base(request):
     return render(request, 'volunteer_base.html')
 
 
+
+def Volunteer_home(request):
+    if not request.user.is_authenticated:
+        return redirect('volunteer_login')
+    return render(request, 'volunteer_home.html')
+
+
 def volunteer_requests(request):
     if not request.user.is_authenticated:
         return redirect('admin_login')
@@ -386,7 +430,61 @@ def delete_volunteer(request, id):
     Donor.objects.get(id=id).delete()
     # return redirect('manage_donors')
     
+def donation_collection_requests(request):
+    if not request.user.is_authenticated:
+        return redirect('volunteer_login')
+    user = request.user
+    volunteer = Volunteer.objects.get(user=user)
+    donation = Donation.objects.filter(volunteer=volunteer, status='Volunteer Allocated')
+    return render(request, 'collection_req.html', locals())
 
+
+
+def collection_req_details(request, id):
+    if not request.user.is_authenticated:
+        return redirect('volunteer_login')
+    
+    donation = Donation.objects.get(id=id)
+    error = ""
+
+    if request.method == "POST":
+        status = request.POST['status']
+        volunteerremarks = request.POST['volunteerremarks']
+ 
+        try:
+            donation.status = status
+            donation.volunteer_remarks = volunteerremarks
+            donation.updated_at = date.today()
+            donation.save()
+            error = "no"
+
+            return render(request, 'collection_req_details.html', locals())
+        except Exception as e:
+            error = "yes"
+            return render(request, 'collection_req_details.html', locals())
+    else:
+        return render(request, 'collection_req_details.html', locals())
+
+
+    
+def donation_received(request):
+    if not request.user.is_authenticated:
+        return redirect('volunteer_login')
+    
+    user = request.user
+    volunteer = Volunteer.objects.get(user=user)
+    donation = Donation.objects.filter(volunteer=volunteer, status='Donation Received')
+    return render(request, 'donation_receive.html', locals())
+
+
+def donation_not_received(request):
+    if not request.user.is_authenticated:
+        return redirect('volunteer_login')
+    
+    user = request.user
+    volunteer = Volunteer.objects.get(user=user)
+    donation = Donation.objects.filter(volunteer=volunteer, status='Donation Not Received')
+    return render(request, 'donation_not_received.html', locals())
 
 
 

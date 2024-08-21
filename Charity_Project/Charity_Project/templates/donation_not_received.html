@@ -1,0 +1,114 @@
+{% extends "volunteer_base.html" %}
+
+
+{% block content %}
+<div class="navbar">
+ <h2>Donation Not Received </h2>
+</div>
+<main>
+ {% if donation %}
+     <table class="table">
+         <thead>
+             <tr>
+                 <th>S.N</th>
+                 <th>Donation Name</th>
+                 <th>Donation Date</th>
+                 <th>Actions</th>
+             </tr>
+         </thead>
+         <tbody>
+             {% for i in donation %}
+             <tr>
+                 <td>{{ forloop.counter }}</td>
+                 <td>{{ i.donation_name }}</td>
+                 <td>{{ i.donation_date }}</td>
+                 <td>
+                     <a href="{% url 'collection_req_details' i.id %}" class="btn btn-edit">View Details</a>
+                 </td>
+             </tr>
+             {% endfor %}
+         </tbody>
+     </table>
+ {% else %}
+     <div class="alert">
+         No collection requests found.
+     </div>
+ {% endif %}
+</main>
+
+<style>
+ /* Styles inherited from the theme */
+ .navbar h2 {
+     color: #2648e1; /* Matching header color */
+     font-size: 24px;
+     margin: 0;
+ }
+
+ main {
+     padding: 20px;
+     background: #ffffff; /* Background consistent with the main theme */
+     border-radius: 5px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+     min-height: calc(100vh - 56px); /* Adjust for navbar height */
+     overflow-x: auto; /* Handle overflow horizontally */
+ }
+
+ .table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-top: 20px;
+ }
+
+ .table th, .table td {
+     padding: 12px 15px;
+     border: 1px solid #ddd;
+     text-align: left;
+     font-size: 16px;
+     white-space: nowrap; /* Prevent wrapping in cells */
+ }
+
+ .table th {
+     background-color: #2648e1; /* Table header background matches theme */
+     color: #fff;
+ }
+
+ .table tbody tr:nth-child(even) {
+     background-color: #f2f2f2;
+ }
+
+ .btn {
+     padding: 8px 12px;
+     border-radius: 4px;
+     color: white;
+     text-decoration: none;
+     font-size: 14px;
+     transition: background-color 0.3s ease;
+ }
+
+ .btn-edit {
+     background-color: #2648e1; /* Edit button color */
+     margin-right: 5px;
+ }
+
+ .btn-edit:hover {
+     background-color: #1e3bba;
+ }
+
+ .btn-delete {
+     background-color: #f44336; /* Delete button color */
+ }
+
+ .btn-delete:hover {
+     background-color: #d32f2f;
+ }
+
+ .alert {
+     padding: 10px;
+     background-color: #f44336; /* Error alert color */
+     color: white;
+     margin-top: 20px;
+     border-radius: 4px;
+ }
+</style>
+{% endblock %}
+ 

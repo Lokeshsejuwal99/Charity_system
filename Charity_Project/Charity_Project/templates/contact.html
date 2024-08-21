@@ -10,6 +10,16 @@
         {% include 'navbar.html' %}
     </header>
     <main>
+
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li style="color: green; text-align: center;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
         <section class="contact-container">
             <h1>Contact Us</h1>
             <form action="{% url 'contact' %}" method="post">
@@ -40,7 +50,6 @@
     background-color: #f7f7f7;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
 }
 
 .contact-container h1 {
@@ -81,6 +90,5 @@
 .contact-container button:hover {
     background-color: hsl(197, 93%, 35%);
 }
-
 </style>
 </html>
