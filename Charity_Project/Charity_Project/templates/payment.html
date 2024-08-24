@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+</head>
+<body>
+    <form id="esewa-form" action="https://uat.esewa.com.np/epay/main" method="POST">
+        <input type="hidden" name="tAmt" id="amount" value="{{ amount }}">
+        <input type="hidden" name="amt" id="amount" value="{{ amount }}">
+        <input type="hidden" name="txAmt" value="0">
+        <input type="hidden" name="psc" value="0">
+        <input type="hidden" name="pdc" value="0">
+        <input type="hidden" name="scd" value="{{ merchant_code }}">
+        <input type="hidden" name="pid" id="product_id" value="{{ product_id }}">
+        <input type="hidden" name="sid" id="transaction_id" value="{{ transaction_id }}">
+        <input type="hidden" name="su" value="{{ success_url }}">
+        <input type="hidden" name="fu" value="{{ failure_url }}">
+        <input type="hidden" name="signature" id="signature" value="">
+        <button type="submit">Pay with eSewa</button>
+    </form>
+    <script src="{% static 'js/esewa.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        // Automatically submit the form once the page loads
+        window.onload = function() {
+            submitPayment();
+        };
+    </script>
+</body>
+</html>

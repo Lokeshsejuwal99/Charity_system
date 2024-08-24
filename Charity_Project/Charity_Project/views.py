@@ -499,3 +499,32 @@ def Logout(request):
     return redirect('homepage')
 
 
+# For esewa payment gateway 
+from django.shortcuts import render
+import uuid
+
+def initiate_payment(request):
+    # Fetch or set default values for the payment details
+    amount = request.POST.get('amount', 100)  # Default to 100 if not provided
+    product_id = request.POST.get('product_id', 'PRODUCT_ID')  # Set your product ID here
+    transaction_id = str(uuid.uuid4())  # Generate a unique transaction ID
+    
+    # Your eSewa Merchant Code (scd)
+    merchant_code = 'EPAYTEST'  # Replace with your actual merchant code
+
+    # Context to pass to the payment.html template
+    context = {
+        'amount': amount,
+        'merchant_code': merchant_code,
+        'product_id': product_id,
+        'transaction_id': transaction_id,
+        'success_url': 'http://127.0.0.1:8000/success/',  # Your success URL
+        'failure_url': 'http://127.0.0.1:8000/failure/'   # Your failure URL
+    }
+    return render(request, 'payment.html', context)
+
+def payment_success(request):
+    return render(request, 'esewa_success.html')
+
+def payment_failure(request):
+    return render(request, 'esewa_failure.html')

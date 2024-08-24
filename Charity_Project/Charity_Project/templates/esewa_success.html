@@ -1,0 +1,16 @@
+<!-- templates/esewa_success.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+</head>
+<body>
+    <h1>Thank You for Your Donation!</h1>
+    <p>Your payment was successful.</p>
+    <p>Transaction Reference ID: {{ ref_id }}</p>
+    <p>We appreciate your support.</p>
+    <a href="{% url 'homepage' %}">Go back to homepage</a>
+</body>
+</html>

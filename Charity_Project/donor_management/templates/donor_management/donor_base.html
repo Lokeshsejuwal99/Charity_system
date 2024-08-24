@@ -22,7 +22,7 @@
             <ul class="list-unstyled components">
                 <li><a href="">Home</a></li>
                 <li><a href="{% url 'donate_now' %}">Donate Now</a></li>
-                <li><a href="">Donations</a></li>
+                <li><a href="{% url 'initiate_payment' %}">Donations</a></li>
                 <li><a href="">Campaigns</a></li>
                 <li><a href="">Settings</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -34,7 +34,7 @@
             <!-- Toggle Button -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info" style="background-color: blue;">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info" style="color: black;">
                         <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
                     </button>
                 </div>
@@ -176,7 +176,6 @@
     .navbar {
         padding: 15px;
         background: #ffffff;
-        border-bottom: 1px solid #ddd;
     }
 
     main {

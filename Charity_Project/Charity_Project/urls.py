@@ -71,4 +71,9 @@ urlpatterns = [
     path('donor_login/', donor_login, name='donor_login'),
     path('donor_signup/', donor_signup, name='donor_signup'),
     path('logout/', Logout, name='logout'),
-]
+
+    #For esewa integration
+    path('payment/', initiate_payment, name='initiate_payment'),
+    path('success/', payment_success, name='esewa_success'),
+    path('failure/', payment_failure, name='esewa_failure'),
+    ]
