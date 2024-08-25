@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.middleware.csrf import get_token
-from donor_management.models import Donor, Donation, DonationArea, Volunteer, ContactMessage
+from donor_management.models import Donor, Donation, DonationArea, Volunteer, ContactMessage, Donation_Gallery, Request_for_donation
 from django.contrib.auth import login, logout, authenticate
 from datetime import date
 
@@ -40,6 +40,28 @@ def login_as_view(request):
 def signup_as_view(request):
    return render(request, 'signup_as.html')
 
+
+# Needy People request for donation 
+def request_for_donation(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        contact_no = request.POST.get('contact_no')
+        request_for = request.POST.get('request_for')
+
+        # Save the data to the model
+        Request_for_donation.objects.create(
+            name=name,
+            contact_no=contact_no,
+            request_for=request_for
+        )
+
+        return redirect('thank_you')
+
+    return render(request, 'request_donation.html')
+
+
+def thank_you(request):
+    return render(request, 'thankyou.html')
 
 
 # Donor login and signup credentials 
@@ -487,10 +509,64 @@ def donation_not_received(request):
     return render(request, 'donation_not_received.html', locals())
 
 
+def donation_rec_details(request, id):
+    if not request.user.is_authenticated:
+        return redirect('volunteer_login')
+    
+    donation = Donation.objects.get(id=id)
+    error = ""
+
+    if request.method == "POST":
+        status = request.POST['status']
+ 
+        try:
+            donation.status = status
+            donation.updated_at = date.today()
+            donation.save()
+            Donation_Gallery.objects.create(donation=donation)
+            error = "no"
+
+            return render(request, 'donation_rec_detail.html', locals())
+        except Exception as e:
+            error = "yes"
+            return render(request, 'donation_rec_detail.html', locals())
+    else:
+        return render(request, 'donation_rec_detail.html', locals())
+ 
 
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
+@login_required(login_url='volunteer_login')
+def donation_delivered(request):
+    user = request.user
+    
+    try:
+        volunteer = Volunteer.objects.get(user=user)
+    except Volunteer.DoesNotExist:
+        messages.error(request, "Volunteer not found.")
+        return redirect('some_error_page')
+
+    # Filter donations that have the status 'Donation Delivered Successfully'
+    donations = Donation.objects.filter(volunteer=volunteer, status='Donation Delivered Successfully')
+
+    if not donations.exists():
+        messages.info(request, "No delivered donations found.")
+    
+    return render(request, 'donation_delivered.html', {'donations': donations})
 
 
+@login_required(login_url='volunteer_login')
+def donation_delivered_details(request, id):
+    user = request.user
+    
+    # Ensure the volunteer is associated with the donation
+    volunteer = get_object_or_404(Volunteer, user=user)
+    donation = get_object_or_404(Donation, id=id, volunteer=volunteer, status='Donation Delivered Successfully')
+    
+    return render(request, 'donation_delivered_details.html', {'donation': donation})
 
 
 # Logout for all users.

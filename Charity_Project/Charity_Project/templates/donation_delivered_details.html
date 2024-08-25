@@ -1,0 +1,148 @@
+{% extends 'volunteer_base.html' %}
+
+{% block title %}Donation Details{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Donation: {{ donation.donation_name }} Donation</h1>
+
+<div class="donation-details-container">
+    <!-- Donor Details Section -->
+    <div class="details-section">
+        <h2 class="section-title">Donor Information</h2>
+        <table class="details-table">
+            <tr>
+                <th>Donor Name</th>
+                <td>{{ donation.donor.user.first_name }} {{ donation.donor.user.last_name }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ donation.donor.user.email }}</td>
+            </tr>
+            <tr>
+                <th>Contact Number</th>
+                <td>{{ donation.donor.phone_number }}</td>
+            </tr>
+        </table>
+    </div>
+    
+    <!-- Donation Details Section -->
+    <div class="details-section">
+        <h2 class="section-title">Donation Information</h2>
+        <table class="details-table">
+            <tr>
+                <th>Donation Name</th>
+                <td>{{ donation.donation_name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ donation.description }}</td>
+            </tr>
+            <tr>
+                <th>Donation Date</th>
+                <td>{{ donation.donation_date | date:"M d, Y" }}</td>
+            </tr>
+            <tr>
+                <th>Collection Location</th>
+                <td>{{ donation.collection_loc }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td style="text-transform: capitalize;">{{ donation.status }}</td>
+            </tr>
+            <tr>
+                <th>Updated At</th>
+                <td>{{ donation.updated_at | date:"M d, Y" }} {{ donation.updated_at | time:"H:i" }}</td>
+            </tr>
+            <tr>
+                <th>Admin Remarks</th>
+                <td colspan="3">{{ donation.admin_remarks }}</td>
+            </tr>
+        </table>
+    </div>
+    
+    <!-- Assigned Details Section -->
+    <div class="details-section">
+        <h2 class="section-title">Assigned Information</h2>
+        <table class="details-table">
+            <tr>
+                <th>Donation Area</th>
+                <td style="text-transform: capitalize;">{{ donation.donation_area.area_name }}</td>
+            </tr>
+            <tr>
+                <th>Assigned Volunteer</th>
+                <td colspan="3">{{ donation.volunteer.user.first_name }}</td>
+            </tr>
+        </table>
+    </div>
+    
+    <!-- Volunteer Remarks Section -->
+    <div class="details-section">
+        <h2 class="section-title">Volunteer Remarks</h2>
+        <p>{{ donation.volunteer_remarks }}</p>
+    </div>
+</div>
+
+<style>
+    .page-title {
+        font-size: 2em;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .donation-details-container {
+        margin: 0 auto;
+        max-width: 900px;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .details-section {
+        margin-bottom: 30px;
+    }
+
+    .section-title {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+        color: #555;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 5px;
+    }
+
+    .details-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .details-table th, .details-table td {
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .details-table th {
+        background-color: #ecf0f1;
+        color: #0f0808;
+        font-weight: 600;
+
+    }
+
+    .details-table td {
+        background-color: #fff;
+        color: #333;
+    }
+
+    .details-table tr:last-child th, .details-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .details-section p {
+        font-size: 1.1em;
+        color: #444;
+        margin-top: 10px;
+    }
+</style>
+
+{% endblock %}

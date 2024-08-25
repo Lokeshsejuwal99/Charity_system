@@ -31,6 +31,10 @@ urlpatterns = [
     path('about/', about_view, name='about'),
     path('contact/', contact_view, name='contact'),
 
+    # For request for donation
+    path('request_for_donation/', request_for_donation, name='request_for_donation'),
+    path('thank-you/', thank_you, name='thank_you'),
+
     #for admin
     path('admin_login/', admin_login, name='admin_login'),
     path('admin_signup/', admin_signup, name='admin_signup'),
@@ -65,7 +69,9 @@ urlpatterns = [
     path('collection_req_details/<int:id>/', collection_req_details, name='collection_req_details'),
     path('donation_receive', donation_received, name='donation_receive'),
     path('donation_not_received/', donation_not_received, name='donation_not_received'),
-
+    path('donation_rec_details/<int:id>', donation_rec_details, name='donation_rec_details'),
+    path('donation_delivered/', donation_delivered, name='donation_delivered'),
+    path('donation_delivered_details/<int:id>/', donation_delivered_details, name='donation_delivered_details'),
 
     #For Donor login and signup 
     path('donor_login/', donor_login, name='donor_login'),

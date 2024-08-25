@@ -3,8 +3,11 @@
 {% block title %}Donation Details{% endblock %}
 
 {% block content %}
-
+<h1>
+ Donation Received But Not Delivered.
+</h1>
 <div class="donation-details-container"> 
+
  <!-- Donor Details Section -->
  <div class="details-section">
   <h2>Donor Information</h2>
@@ -81,25 +84,26 @@
  <!-- Volunteer Remarks Section -->
  <div class="details-section">
   <h2>Volunteer Remarks</h2>
+  <td colspan="3">{{ donation.volunteerremarks }}</td>
   <table class="details-table">
-   {% if not donation.volunteer_remarks %}
+
+   {% if donation.status == 'Donation Received' %}
    <form method="post">
     {% csrf_token %}
     <tr>
-     <th>Donation Received?</th>
+
+     <th>Donation Delivered Successfully ?</th>
      <td colspan="3">
       <label>
-       <input type="radio" name="status" value="Donation Received" required> Yes
-      </label>
-      <label>
-       <input type="radio" name="status" value="Donation Not Received" required> No
+       <input type="radio" name="status" value="Donation Delivered Successfully" required> Yes
       </label>
      </td>
+
     </tr>
     <tr>
      <th>Remarks</th>
      <td colspan="3">
-      <textarea class="form-control custom-textarea"" placeholder="Enter your remarks" name="volunteerremarks" required></textarea>
+      <textarea class="form-control custom-textarea" placeholder="Enter your remarks" name="volunteerremarks" required></textarea>
      </td>
     </tr>
     <tr>
@@ -147,7 +151,6 @@
   margin-bottom: 40px;
   border-bottom: 2px solid #007bff;
   padding-bottom: 5px;
-
  }
  
  .details-table {
@@ -223,8 +226,8 @@
 
 {% if error == "no" %}
 <script>
- alert("Volunteer status and remarks updated successfully");
- window.location.href = "{% url 'collection_req_details' donation.id %}";
+ alert("Donation delivery status updated successfully");
+ window.location.href = "{% url 'collection_req' %}";
 </script>
 {% elif error == "yes" %}
 <script>
