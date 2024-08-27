@@ -16,32 +16,35 @@
                 </div>
                 <div class="user-info">
                     <h3>Donor Dashboard</h3>
-                    <p>{{ request.user.email }}</p>
+                    <p>{{ request.user.first_name }} {{ request.user.last_name }}</p>
                 </div>
             </div>
             <ul class="list-unstyled components">
-                <li><a href="">Home</a></li>
-                <li><a href="{% url 'donate_now' %}">Donate Now</a></li>
-                <li><a href="{% url 'initiate_payment' %}">Donations</a></li>
-                <li><a href="">Campaigns</a></li>
-                <li><a href="">Settings</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li><a href="{% url 'donor_home' %}"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="{% url 'profile_donor' %}"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="{% url 'donate_now' %}"><i class="fas fa-hand-holding-heart"></i> Donate Now</a></li>
+                <li><a href="{% url 'initiate_payment' %}"><i class="fas fa-donate"></i> Donations</a></li>
+                <li><a href=""><i class="fas fa-bullhorn"></i> Campaigns</a></li>
+                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
 
         <!-- Page Content -->
         <div id="content">
             <!-- Toggle Button -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info" style="color: black;">
-                        <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
-                    </button>
-                </div>
-            </nav>
+
 
             <!-- Main Content -->
             <main>
+                
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <button type="button" id="sidebarCollapse" class="btn btn-info" style="color: black;">
+                            <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                        </button>
+                    </div>
+                </nav>
+
                 {% block content %}
                 <!-- Content will be injected here from other templates -->
                 {% endblock %}
@@ -69,7 +72,6 @@
 <script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" defer></script>
 <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js" defer></script>
 
 <script>
@@ -103,8 +105,8 @@
     #sidebar {
         min-width: 250px;
         max-width: 250px;
-        background: #7386D5;
-        color: #fff;
+        background: #ffffff;
+        color: #000000;
         transition: all 0.3s;
         position: fixed;
         height: 100%;
@@ -118,7 +120,7 @@
 
     #sidebar .sidebar-header {
         padding: 20px;
-        background: #6d7fcc;
+        background: #f8f9fa;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -129,10 +131,11 @@
     #sidebar .sidebar-header .user-icon {
         font-size: 3em;
         margin-bottom: 10px;
+        color: #007bff;
     }
 
     #sidebar .sidebar-header .user-info {
-        color: #fff;
+        color: #000;
         font-size: 0.9em;
     }
 
@@ -143,20 +146,24 @@
     }
 
     #sidebar ul li {
-        border-bottom: 1px solid #47748b;
+        border-bottom: 1px solid #e0e0e0;
     }
 
     #sidebar ul li a {
         padding: 15px;
         display: block;
-        color: #fff;
+        color: #000;
         text-decoration: none;
         font-size: 1.1em;
         transition: background 0.3s;
     }
 
     #sidebar ul li a:hover {
-        background: #6d7fcc;
+        background: #f8f9fa;
+    }
+
+    #sidebar ul li a i {
+        margin-right: 10px;
     }
 
     #content {
@@ -164,7 +171,7 @@
         padding: 20px;
         min-height: 100vh;
         margin-left: 250px;
-        background-color: #f8f9fa; /* Same background color as body */
+        background-color: white; /* Same background color as body */
         transition: margin-left 0.3s, width 0.3s;
     }
 
@@ -175,12 +182,12 @@
 
     .navbar {
         padding: 15px;
-        background: #ffffff;
+        background: transparent;
     }
 
     main {
         padding: 20px;
-        background: #ffffff; /* Set background color for main content */
+        background: whitesmoke; /* Set background color for main content */
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         min-height: calc(100vh - 56px); /* Adjust for navbar height */

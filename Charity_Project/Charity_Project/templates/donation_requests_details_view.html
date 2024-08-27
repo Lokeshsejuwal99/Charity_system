@@ -1,0 +1,126 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+    Donation Request Details - {{ request.name }}
+{% endblock %}
+
+{% block content %}
+<div class="details-container">
+    <div class="container">
+        <h1 class="page-title">Donation Request Details</h1>
+
+        <div class="details-section">
+            <table class="details-table">
+                <tbody>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ request.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Contact Number</th>
+                        <td>{{ request.contact_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ request.request_for }}</td>
+                    </tr>
+                    <tr>
+                        <th>Submitted At</th>
+                        <td>{{ request.submitted_at|date:"F j, Y, g:i a" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'donation_requests_view' %}" class="btn btn-secondary">Back to Donation Requests</a>
+    </div>
+</div>
+
+<style>
+    .details-container {
+        margin: 20px;
+        padding: 20px;
+        background-color: transparent;
+        border-radius: 8px;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .page-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #3498db;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+    }
+    .details-section {
+        margin-bottom: 40px;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 20px;
+    }
+    .details-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .details-table th,
+    .details-table td {
+        border: 1px solid #ddd;
+        padding: 12px 15px;
+        text-align: left;
+        vertical-align: top;
+    }
+    .details-table th {
+        background-color: #f1f1f1;
+        color: #333;
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .details-table td {
+        background-color: #fff;
+        color: #666;
+        font-size: 16px;
+    }
+    .btn-secondary {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        text-align: center;
+    }
+    .btn-secondary:hover {
+        background-color: #2980b9;
+    }
+
+    @media (max-width: 768px) {
+        .details-table th,
+        .details-table td {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .details-table th {
+            background-color: transparent;
+            font-size: 14px;
+        }
+        .details-table td {
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}

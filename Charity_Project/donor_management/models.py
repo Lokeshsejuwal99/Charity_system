@@ -22,10 +22,12 @@ class Volunteer(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile_pic = models.ImageField(null=True)
     contact = models.CharField(max_length=40, null=True)
     address = models.CharField(max_length=40, null=True)
     aboutme = models.CharField(max_length=400, null=True)
     status = models.CharField(max_length=30, choices=Volunteer_status, null=True)
+    identity_card = models.FileField(null=True)
     admin_remarks = models.CharField(max_length=500, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True)

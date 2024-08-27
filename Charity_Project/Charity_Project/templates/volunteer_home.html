@@ -3,6 +3,132 @@
 {% block title %}Volunteer Home{% endblock %}
 
 {% block content %}
-<h2>Welcome to the Volunteer Dashboard</h2>
-<p>This is your Volunteer home page.</p>
+{% load static %}
+
+<div class="home-container">
+    <div class="welcome-section">
+        <h1>Welcome, {{ user.get_full_name }}!</h1>
+        <p>Thank you for being a part of our community. Your efforts and dedication help make a difference.</p>
+    </div>
+
+    <div class="cards-section">
+        <div class="card">
+            <div class="card-icon">
+                <img src="{% static 'images/volunteer-icon.png' %}" alt="Volunteer Icon">
+            </div>
+            <div class="card-content">
+                <h2>Your Profile</h2>
+                <p>View and update your personal information.</p>
+                <a href="{% url 'profile_volunteer' %}" class="btn">Go to Profile</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">
+                <img src="{% static 'images/campaign-icon.png' %}" alt="Campaign Icon">
+            </div>
+            <div class="card-content">
+                <h2>Active Campaigns</h2>
+                <p>Explore ongoing campaigns and find out how you can contribute.</p>
+                <a href="" class="btn">View Campaigns</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">
+                <img src="{% static 'images/history-icon.png' %}" alt="History Icon">
+            </div>
+            <div class="card-content">
+                <h2>Donation History</h2>
+                <p>Check your past contributions and track your impact.</p>
+                <a href="" class="btn">View History</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+/* Home Container */
+.home-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Welcome Section */
+.welcome-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.welcome-section h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.welcome-section p {
+    font-size: 18px;
+    color: #666;
+}
+
+/* Cards Section */
+.cards-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.card {
+    flex: 1 1 30%;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+.card-content h2 {
+    font-size: 24px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.card-content p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+</style>
 {% endblock %}

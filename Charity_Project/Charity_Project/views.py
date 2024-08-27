@@ -6,6 +6,8 @@ from django.middleware.csrf import get_token
 from donor_management.models import Donor, Donation, DonationArea, Volunteer, ContactMessage, Donation_Gallery, Request_for_donation
 from django.contrib.auth import login, logout, authenticate
 from datetime import date
+from django.contrib.auth.decorators import login_required
+
 
 def homepage(request):
  return render(request, 'homepage.html')
@@ -130,7 +132,6 @@ def donor_signup(request):
         return redirect('donor_login')
 
     return render(request, 'donor_signup.html')
-
 
 
 
@@ -311,9 +312,31 @@ def view_message_details(request, message_id):
     message = get_object_or_404(ContactMessage, id=message_id)
     return render(request, 'inquires_details.html', {'message': message})
 
+def donation_requests_view(request):
+    request_donation = Request_for_donation.objects.all()
+    return render(request, 'request_donation_admin_site.html', locals())
+
+
+def donation_requests_details_view(request, id):
+    request_donation = get_object_or_404(Request_for_donation, id=id)
+    return render(request, 'donation_requests_details_view.html', {'request': request_donation})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # For Volunteers 
-
-
 def volunteer_signup(request):
     if request.method == 'POST':
         firstname = request.POST.get('first_name')
@@ -350,7 +373,9 @@ def volunteer_signup(request):
             contact=contact,
             address=address,
             aboutme=aboutme,
-            status='pending'
+            status='pending',
+            profile_pic=request.FILES.get('profile_pic'),
+            identity_card=request.FILES.get('identity_card')
         )
 
         # Log the user in after successful signup
@@ -389,11 +414,63 @@ def volunteer_base(request):
     return render(request, 'volunteer_base.html')
 
 
-
 def Volunteer_home(request):
     if not request.user.is_authenticated:
         return redirect('volunteer_login')
     return render(request, 'volunteer_home.html')
+
+
+@login_required
+def profile_volunteer(request):
+    # Get the current volunteer's profile
+    volunteer = get_object_or_404(Volunteer, user=request.user)
+
+    if request.method == 'POST':
+        firstname = request.POST.get('first_name')
+        lastname = request.POST.get('last_name')
+        email = request.POST.get('email_id')
+        contact = request.POST.get('phone_number')
+        address = request.POST.get('address')
+        aboutme = request.POST.get('aboutme')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        # Check if passwords match
+        if password and password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect('profile_volunteer')
+
+        # Check if password length is sufficient
+        if password and len(password) < 8:
+            messages.error(request, "Password must be at least 8 characters long.")
+            return redirect('profile_volunteer')
+
+        # Update user information
+        user = volunteer.user
+        user.first_name = firstname
+        user.last_name = lastname
+        user.email = email
+        if password:
+            user.set_password(password)
+        user.save()
+
+        # Update volunteer profile information
+        volunteer.contact = contact
+        volunteer.address = address
+        volunteer.aboutme = aboutme
+        if 'profile_pic' in request.FILES:
+            volunteer.profile_pic = request.FILES['profile_pic']
+        if 'identity_card' in request.FILES:
+            volunteer.identity_card = request.FILES['identity_card']
+        volunteer.save()
+
+        messages.success(request, "Profile updated successfully.")
+        return redirect('profile_volunteer')
+
+    context = {
+        'volunteer': volunteer
+    }
+    return render(request, 'profile_volunteer.html', context)
 
 
 def volunteer_requests(request):
@@ -533,11 +610,6 @@ def donation_rec_details(request, id):
     else:
         return render(request, 'donation_rec_detail.html', locals())
  
-
-
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 
 @login_required(login_url='volunteer_login')
 def donation_delivered(request):

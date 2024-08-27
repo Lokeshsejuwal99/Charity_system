@@ -14,7 +14,7 @@
         <nav id="sidebar">
             <div class="sidebar-header">
                 <div class="user-icon">
-                    <i class="fas fa-user-circle"></i>
+                    <i class="fas fa-user-circle" style="color: red;"></i>
                 </div>
                 <div class="user-info">
                     <h3>Admin Dashboard</h3>
@@ -47,8 +47,14 @@
                     </ul>
                 </li>
                 <li><a href="{% url 'manage_donors' %}"> <i class="fa-solid fa-users-gear"></i> Manage Donors</a></li>
-                <li><a href="{% url 'inquires' %}"><i class="fa-solid fa-comment-dots"></i> Inquires </a></li>
-                <li><a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fa-solid fa-hand"></i> Requests</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'donation_requests_view' %}" style="color: blue;">Request for donation</a></li>
+                        <li><a href="{% url 'inquires' %}" style="color: limegreen;">Contact Us</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'logout' %}" style="color: red;"><i class="fa-solid fa-right-from-bracket" style="color: red;"></i> Logout</a></li>
             </ul>
         </nav>
 
@@ -92,7 +98,7 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.1/css/buttons.dataTables.css">
-    
+
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js"></script>

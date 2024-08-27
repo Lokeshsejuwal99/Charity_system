@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import *
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('', homepage, name='homepage'),
@@ -35,6 +38,7 @@ urlpatterns = [
     path('request_for_donation/', request_for_donation, name='request_for_donation'),
     path('thank-you/', thank_you, name='thank_you'),
 
+
     #for admin
     path('admin_login/', admin_login, name='admin_login'),
     path('admin_signup/', admin_signup, name='admin_signup'),
@@ -52,13 +56,15 @@ urlpatterns = [
     path('manage_donors/', manage_donors, name='manage_donors'),
     path('view_donor_details/<int:id>/', view_donors_details, name='view_donors_details'),
     path('delete_donors/<int:donor_id>/', delete_donors, name='delete_donors'),
-
+    path('donation_requests_view/', donation_requests_view, name='donation_requests_view'),
+    path('donation_requests/<int:id>/', donation_requests_details_view, name='donation_request_detail'),
 
     #For Volunteer 
     path('volunteer_signup/', volunteer_signup, name='volunteer_signup'),
     path('volunteer_login/', volunteer_login, name='volunteer_login'),
     path('volunteer_base/', volunteer_base, name='volunteer_base'),
     path('Volunteer_home/', Volunteer_home, name='Volunteer_home'),
+    path('profile_volunteer', profile_volunteer, name='profile_volunteer'),
     path('volunteer_requests/', volunteer_requests, name='volunteer_requests'),
     path('accepted_volunteer/', accepted_volunteer, name='accepted_volunteer'),
     path('rejected_volunteer/', rejected_volunteer, name='rejected_volunteer'),
@@ -73,13 +79,20 @@ urlpatterns = [
     path('donation_delivered/', donation_delivered, name='donation_delivered'),
     path('donation_delivered_details/<int:id>/', donation_delivered_details, name='donation_delivered_details'),
 
+
+
     #For Donor login and signup 
     path('donor_login/', donor_login, name='donor_login'),
     path('donor_signup/', donor_signup, name='donor_signup'),
     path('logout/', Logout, name='logout'),
+
+
 
     #For esewa integration
     path('payment/', initiate_payment, name='initiate_payment'),
     path('success/', payment_success, name='esewa_success'),
     path('failure/', payment_failure, name='esewa_failure'),
     ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

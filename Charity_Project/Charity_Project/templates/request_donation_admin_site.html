@@ -1,0 +1,92 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Donation Requests - Admin{% endblock %}
+
+{% block content %}
+    <div class="navbar">
+        <h2>Donation Requests</h2>
+    </div>
+
+    <main>
+        {% if request_donation %}
+            <table class="table" id="example">
+                <thead>
+                    <tr>
+                        <th>S.N</th>
+                        <th>Name</th>
+                        <th>Contact Number</th>
+                        <th>Submitted At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in request_donation %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ request.name }}</td>
+                            <td>{{ request.contact_no }}</td>
+                            <td>{{ request.submitted_at }}</td>
+                            <td><a href="{% url 'donation_request_detail' request.id %}" style="text-decoration: none;">View Details</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert">
+                No donation requests found.
+            </div>
+        {% endif %}
+    </main>
+
+
+    <style>
+        .navbar h2 {
+            color: #2648e1;
+            font-size: 24px;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-bottom: 2px solid #2648e1;
+        }
+
+        main {
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 56px);
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 16px;
+            white-space: nowrap;
+        }
+
+        .table th {
+            background-color: #2648e1;
+            color: #fff;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .alert {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+    </style>
+{% endblock %}

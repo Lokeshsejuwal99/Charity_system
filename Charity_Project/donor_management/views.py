@@ -10,38 +10,28 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from donor_management.models import Donor
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils import timezone
+from django.db.models import Sum
 
-
-def process_donation(donor_id, amount, project_id=None):
-    donor = Donor.objects.get(id=donor_id)
-    project = Project.objects.get(id=project_id) if project_id else None
-
-    # Create the Donation record
-    donation = Donation.objects.create(
-        donor=donor,
-        campaign=None,
-        amount=amount,
-        payment_method='esewa',
-        transaction_id='TRANSACTION1234',
-        status='success'
-    )
-
-    # Update the Budget record
-    budget, created = Budget.objects.get_or_create(donor=donor, project=project, defaults={
-        'total_budget': 0,
-        'remaining_budget': 0,
-    })
-
-    budget.total_budget += amount
-    budget.update_budget(amount)
-
-    return donation
 
 def donor_home(request):
-    if not request.user.is_authenticated:
-        return redirect('donor_login')
-    return render(request, 'donor_management/donor_home.html')  
+    # Get the Donor instance associated with the logged-in user
+    donor = get_object_or_404(Donor, user=request.user)
+
+    # Calculate the total donations
+    total_donations = Donation.objects.filter(donor=donor).count()
+
+    # Get recent donations (e.g., last 5)
+    recent_donations = Donation.objects.filter(donor=donor).order_by('-created_at')[:]
+
+    context = {
+        'total_donations': total_donations,
+        'recent_donations': recent_donations,
+    }
+
+    return render(request, 'donor_management/donor_home.html', context)
 
 def donation_history(request):
     if not request.user.is_authenticated:
@@ -103,3 +93,54 @@ def donate_now(request):
 def become_volunteer(request):
     return render(request, 'donor_management/become_volunteer.html')
 
+
+@login_required
+def profile_donor(request):
+    try:
+        donor = Donor.objects.get(user=request.user)
+    except Donor.DoesNotExist:
+        messages.error(request, "Donor profile not found.")
+        return redirect('donor_signup')  # Or a relevant page
+
+    if request.method == 'POST':
+        # Handle profile update logic if necessary
+        pass
+
+    context = {
+        'donor': donor,
+    }
+    return render(request, 'profile_donor.html', context)
+
+@login_required
+def edit_donor_profile(request):
+    donor = get_object_or_404(Donor, user=request.user)
+
+    if request.method == 'POST':
+        # Update user details
+        user = request.user
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')  # Ensure email is included
+        user.save()
+
+        # Update donor details
+        donor.phone_number = request.POST.get('phone_number')
+        donor.address = request.POST.get('address')
+        donor.district = request.POST.get('district')
+        donor.country = request.POST.get('country')
+        donor.save()
+
+        return redirect('profile_donor')
+    
+    context = {
+        'donor': donor,
+        'first_name': request.user.first_name,
+        'last_name': request.user.last_name,
+        'email': request.user.email,  # Include email in context
+        'phone_number': donor.phone_number,
+        'address': donor.address,
+        'district': donor.district,
+        'country': donor.country
+    }
+
+    return render(request, 'profile_donor_edit.html', context)

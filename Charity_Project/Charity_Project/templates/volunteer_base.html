@@ -21,6 +21,7 @@
             </div>
             <ul class="list-unstyled components">
                 <li><a href="{% url 'Volunteer_home' %}"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="{% url 'profile_volunteer' %}"><i class="fas fa-user"></i> Profile</a></li>
                 <li><a href="{% url 'collection_req' %}"><i class="fas fa-box"></i> Collection Requests</a></li>
                 <li>
                     <a href="#collectionHistorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-history"></i> Collection History</a>
@@ -31,8 +32,7 @@
 
                     </ul>
                 </li>
-                <li><a href="#"><i class="fas fa-key"></i> Change Password</a></li>
-                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><a href="{% url 'logout' %}" style="color: red;"><i class="fas fa-sign-out-alt" style="color: red;"></i> Logout</a></li>
             </ul>
         </nav>
 
@@ -41,10 +41,10 @@
             <!-- Toggle Button -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info" style="color: #000;;">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info" style="color: #000; background-color: transparent;">
                         <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
                     </button>
-                </div>
+                </div>  
             </nav>
 
             <!-- Main Content -->
