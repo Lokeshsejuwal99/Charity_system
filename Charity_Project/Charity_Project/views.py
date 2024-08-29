@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.middleware.csrf import get_token
-from donor_management.models import Donor, Donation, DonationArea, Volunteer, ContactMessage, Donation_Gallery, Request_for_donation
+from donor_management.models import Donor, Donation, DonationArea, Volunteer, ContactMessage, Donation_Gallery, Request_for_donation, Feedback
 from django.contrib.auth import login, logout, authenticate
 from datetime import date
 from django.contrib.auth.decorators import login_required
@@ -27,6 +27,27 @@ def contact_view(request):
         return redirect('contact')
 
     return render(request, 'contact.html')
+
+
+def feedback_page(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        # Save feedback
+        Feedback.objects.create(name=name, email=email, message=message)
+
+        return redirect('feedback_page')  # Redirect to the same page after submitting feedback
+
+    # Fetch recent feedbacks
+    recent_feedbacks = Feedback.objects.all().order_by('-created_at')[:10]
+
+    context = {
+        'recent_feedbacks': recent_feedbacks
+    }
+
+    return render(request, 'feedback_page.html', context)
 
 # For login and signup 
 

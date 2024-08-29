@@ -33,6 +33,7 @@ urlpatterns = [
     path('signup_as/', signup_as_view, name='signup_as'),
     path('about/', about_view, name='about'),
     path('contact/', contact_view, name='contact'),
+    path('feedback/', feedback_page, name='feedback_page'),
 
     # For request for donation
     path('request_for_donation/', request_for_donation, name='request_for_donation'),
