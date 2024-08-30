@@ -1,0 +1,89 @@
+{% include 'navbar.html' %}
+
+<div class="container mt-5">
+    <h2 class="text-center">Donation Gallery</h2>
+    <div class="gallery-container mt-4">
+        {% for item in gallery_items %}
+        <div class="gallery-item">
+            <img src="{% if item.delivery_pic %}{{ item.delivery_pic.url }}{% else %}{{ 'path/to/default_image.jpg' }}{% endif %}" 
+                 alt="{{ item.donation.donation_name }}" class="img-fluid">
+            <h4 class="mt-3">{{ item.donation.donation_name }}</h4>
+            <p>Delivered on: {{ item.created_at|date:"M d, Y" }}</p>
+        </div>
+        {% empty %}
+        <p class="text-center">No work history available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+
+.navbar a.navbar-brand,
+.navbar-nav .nav-link {
+    color: #fff;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ddd;
+}
+
+/* Gallery styling */
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.gallery-item {
+    width: 300px;
+    border: none;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item img:hover {
+    opacity: 0.9;
+}
+
+h2.text-center {
+    font-weight: bold;
+    color: #007bff;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    margin-left: 450px;
+}
+
+.gallery-item h4 {
+    color: #333;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.gallery-item p {
+    color: #777;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.text-center {
+    color: #555;
+    font-size: 1.1rem;
+}
+</style>

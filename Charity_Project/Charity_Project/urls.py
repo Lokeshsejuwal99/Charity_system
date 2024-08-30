@@ -30,6 +30,7 @@ urlpatterns = [
 
     # url for the elements of homepage and navbar
     path('login_as/', login_as_view, name='login_as'),
+    path('gallery/', donation_gallery, name='donation_gallery'),
     path('signup_as/', signup_as_view, name='signup_as'),
     path('about/', about_view, name='about'),
     path('contact/', contact_view, name='contact'),
@@ -38,6 +39,15 @@ urlpatterns = [
     # For request for donation
     path('request_for_donation/', request_for_donation, name='request_for_donation'),
     path('thank-you/', thank_you, name='thank_you'),
+
+    # For campaign management
+    path('campaigns/', campaign_list, name='campaign_list'),
+    path('campaigns/new/', create_campaign, name='create_campaign'),
+    path('active_campaign/', active_campaign, name='active_campaign'),
+    path('campaigns/<int:campaign_id>/', campaign_detail, name='campaign_detail'),
+    path('campaign_learn_more/<int:campaign_id>/', campaign_learn_more, name='campaign_learn_more'),
+    path('campaigns/<int:campaign_id>/edit/', update_campaign, name='update_campaign'),
+    path('campaigns/<int:campaign_id>/delete/', delete_campaign, name='delete_campaign'),
 
 
     #for admin

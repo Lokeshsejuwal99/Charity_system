@@ -1,0 +1,70 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Create New Campaign</h2>
+    <form method="post" class="campaign-form mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Create Campaign</button>
+    </form>
+</div>
+<style>
+ .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: transparent;
+    border-radius: 8px;
+}
+
+h2.text-center {
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.campaign-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.campaign-form .form-group {
+    margin-bottom: 15px;
+}
+
+.campaign-form label {
+    font-weight: 500;
+    color: #555;
+}
+
+.campaign-form input,
+.campaign-form textarea,
+.campaign-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.campaign-form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: #007bff;
+    border: none;
+    color: #ffffff;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.campaign-form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+</style>
+{% endblock %}

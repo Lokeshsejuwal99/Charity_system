@@ -1,9 +1,11 @@
+from donor_management.models import (Donor, Donation, DonationArea, Volunteer, ContactMessage, 
+                                     Donation_Gallery, Request_for_donation, Feedback, Campaign)
+from donor_management.forms import CampaignForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.middleware.csrf import get_token
-from donor_management.models import Donor, Donation, DonationArea, Volunteer, ContactMessage, Donation_Gallery, Request_for_donation, Feedback
 from django.contrib.auth import login, logout, authenticate
 from datetime import date
 from django.contrib.auth.decorators import login_required
@@ -11,7 +13,13 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 
 def homepage(request):
- return render(request, 'homepage.html')
+ campaigns = Campaign.objects.filter(status='active')
+ return render(request, 'homepage.html', {'campaigns':campaigns})
+
+
+def donation_gallery(request):
+    gallery_items = Donation_Gallery.objects.all().order_by('-created_at')
+    return render(request, 'gallery.html', {'gallery_items': gallery_items})
 
 def about_view(request):
  return render(request, 'about.html')
@@ -63,6 +71,7 @@ def login_as_view(request):
 
 def signup_as_view(request):
    return render(request, 'signup_as.html')
+
 
 
 # Needy People request for donation 
@@ -185,13 +194,13 @@ def admin_login(request):
 
 def admin_dashboard(request):
     total_donors = Donor.objects.count()
-    # total_campaigns = Campaign.objects.count()
+    total_campaigns = Campaign.objects.count()
     total_donations = Donation.objects.count()
     active_volunteers = Volunteer.objects.filter(status='active').count()
 
     context = {
         'total_donors': total_donors,
-        # 'total_campaigns': total_campaigns,
+        'total_campaigns': total_campaigns,
         'total_donations': total_donations,
         'active_volunteers': active_volunteers,
         'user': request.user
@@ -689,10 +698,7 @@ def donation_delivered_details(request, id):
     return render(request, 'donation_delivered_details.html', {'donation': donation})
 
 
-# Logout for all users.
-def Logout(request):
-    logout(request)
-    return redirect('homepage')
+
 
 
 # For esewa payment gateway 
@@ -724,3 +730,67 @@ def payment_success(request):
 
 def payment_failure(request):
     return render(request, 'esewa_failure.html')
+
+
+
+
+
+### For campaign management 
+@login_required
+def create_campaign(request):
+    if request.method == 'POST':
+        form = CampaignForm(request.POST)
+        if form.is_valid():
+            campaign = form.save(commit=False)
+            campaign.created_by = request.user
+            campaign.save()
+            return redirect('campaign_list')
+    else:
+        form = CampaignForm()
+    return render(request, 'campaign/create_campaign.html', {'form': form})
+
+@login_required
+def update_campaign(request, campaign_id):
+    campaign = get_object_or_404(Campaign, id=campaign_id)
+    if request.method == 'POST':
+        form = CampaignForm(request.POST, instance=campaign)
+        if form.is_valid():
+            form.save()
+            return redirect('campaign_list')
+    else:
+        form = CampaignForm(instance=campaign)
+    return render(request, 'campaign/update_campaign.html', {'form': form, 'campaign': campaign})
+
+@login_required
+def delete_campaign(request, campaign_id):
+    campaign = get_object_or_404(Campaign, id=campaign_id)
+    if request.method == 'POST':
+        campaign.delete()
+        return redirect('campaign_list')
+    return render(request, 'campaign/delete_campaign.html', {'campaign': campaign})
+
+@login_required
+def campaign_list(request):
+    campaigns = Campaign.objects.all().order_by('-created_at')
+    return render(request, 'campaign/campaign_list.html', {'campaigns': campaigns})
+
+
+@login_required
+def active_campaign(request):
+    campaigns = Campaign.objects.filter(status='active')
+    return render(request, 'campaign/active_campaign.html', {'campaigns': campaigns})
+
+@login_required
+def campaign_detail(request, campaign_id):
+    campaign = get_object_or_404(Campaign, id=campaign_id)
+    return render(request, 'campaign/campaign_detail.html', {'campaign': campaign})
+
+
+def campaign_learn_more(request, campaign_id):
+    campaign = get_object_or_404(Campaign, id=campaign_id)
+    return render(request, 'campaign/learn_more.html', {'campaign': campaign})
+
+# Logout for all users.
+def Logout(request):
+    logout(request)
+    return redirect('homepage')

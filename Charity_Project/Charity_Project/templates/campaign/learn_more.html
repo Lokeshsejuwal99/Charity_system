@@ -1,0 +1,106 @@
+
+{% include 'navbar.html' %}
+{% block content %}
+<div class="campaign-details-container">
+    <h1>{{ campaign.title }}</h1>
+
+    <div class="campaign-details-content">
+        <div class="campaign-description">
+            <h2>Description</h2>
+            <p>{{ campaign.description }}</p>
+        </div>
+
+        <div class="campaign-stats">
+            <h2>Campaign Statistics</h2>
+            <ul>
+                <li><strong>Goal Amount:</strong> ${{ campaign.goal_amount|floatformat:2 }}</li>
+                <li><strong>Amount Raised:</strong> ${{ campaign.amount_raised|floatformat:2 }}</li>
+                <li><strong>Status:</strong> {{ campaign.get_status_display }}</li>
+                <li><strong>Start Date:</strong> {{ campaign.start_date|date:"Y-m-d" }}</li>
+                <li><strong>End Date:</strong> {{ campaign.end_date|date:"Y-m-d" }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+    .campaign-details-container {
+        background-color: transparent;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 800px;
+        width: 100%;
+        margin: 20px auto;
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 28px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .campaign-details-content {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .campaign-description, .campaign-stats {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    h2 {
+        color: #555;
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #666;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .campaign-stats ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .campaign-stats li {
+        color: #444;
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .campaign-stats strong {
+        font-weight: 600;
+    }
+
+    .campaign-actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 5px;
+        display: inline-block;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+</style>
+{% endblock %}

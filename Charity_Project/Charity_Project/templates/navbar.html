@@ -15,7 +15,7 @@
        </a>
        {% if request.path == '/' %}
        <ul class="nav-links">
-           <li><a href="#">Donations</a></li>
+           <li><a href="{% url 'donation_gallery' %}">Our Gallery</a></li>
            <li><a href="{% url 'about' %}">About Us</a></li>
            <li><a href="{% url 'contact' %}">Contact</a></li>
            <a class="nav-link" href="{% url 'feedback_page' %}">Feedback</a>

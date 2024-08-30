@@ -40,6 +40,14 @@
                     </ul>
                 </li>
                 <li class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fa-solid fa-calendar-days"></i> Campaign Management</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'create_campaign' %}" style="color: #ffab02">Create Campaign</a></li>
+                        <li><a href="{% url 'active_campaign' %}" style="color: green;">Active Campaign</a></li>
+                        <li><a href="{% url 'campaign_list' %}" style="color: rgb(0, 4, 219);">All Campaign</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle"><i class="fa-solid fa-map-location-dot"></i> Donation Area</a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'add_area' %}" style="color: blue;">Add Donation Area</a></li>

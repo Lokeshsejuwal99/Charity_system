@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import timezone
 
 class Donor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -105,3 +106,28 @@ class Feedback(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+
+class Campaign(models.Model):
+    STATUS_CHOICES = [
+        ('active', 'Active'),
+        ('completed', 'Completed'),
+        ('inactive', 'Inactive'),
+    ]
+
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    goal_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount_raised = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    def is_active(self):
+        return self.status == 'active' and self.start_date <= timezone.now() <= self.end_date
