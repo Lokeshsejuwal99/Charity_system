@@ -7,7 +7,8 @@ from donor_management.models import Donor, Donation, DonationArea, Volunteer, Co
 from django.contrib.auth import login, logout, authenticate
 from datetime import date
 from django.contrib.auth.decorators import login_required
-
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 
 def homepage(request):
  return render(request, 'homepage.html')
@@ -302,17 +303,19 @@ def edit_donation_area(request, id):
 
     return render(request, 'edit_donation_area.html', locals())
 
+@login_required
 def delete_area(request, area_id):
     DonationArea.objects.get(id=area_id).delete()
     return redirect('manage_area')
     
-
+@login_required
 def manage_donors(request):
     if not request.user.is_authenticated:
         return redirect('admin_login')
     donors = Donor.objects.all()
     return render(request, 'manage_donors.html',  locals())
 
+@login_required
 def view_donors_details(request, id):
     if not request.user.is_authenticated:
         return redirect('admin_login')
@@ -320,24 +323,48 @@ def view_donors_details(request, id):
     donors = Donor.objects.get(id=id)
     return render(request, 'view_donors_details.html', locals())
 
-
+@login_required
 def delete_donors(request, donor_id):
     Donor.objects.get(id=donor_id).delete()
     return redirect('manage_donors')
-    
+
+@login_required
 def inquires_view(request):
     messages = ContactMessage.objects.all()
     return render(request, 'inquires.html', {'messages': messages})
 
+@login_required
 def view_message_details(request, message_id):
     message = get_object_or_404(ContactMessage, id=message_id)
     return render(request, 'inquires_details.html', {'message': message})
 
+@login_required
+def feedback_list_admin(request):
+    feedbacks = Feedback.objects.all().order_by('-created_at')
+    return render(request, 'feedback_list_admin.html', {'feedbacks': feedbacks})
+
+
+@login_required
+def view_feedback(request, feedback_id):
+    feedback = get_object_or_404(Feedback, id=feedback_id)
+    return render(request, 'view_feedback.html', {'feedback': feedback})
+
+@require_http_methods(["DELETE"])
+@login_required
+def delete_feedback(request, feedback_id):
+    feedback = get_object_or_404(Feedback, id=feedback_id)
+    if request.user.is_staff:
+        feedback.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False}, status=403)
+
+
+@login_required
 def donation_requests_view(request):
     request_donation = Request_for_donation.objects.all()
     return render(request, 'request_donation_admin_site.html', locals())
 
-
+@login_required
 def donation_requests_details_view(request, id):
     request_donation = get_object_or_404(Request_for_donation, id=id)
     return render(request, 'donation_requests_details_view.html', {'request': request_donation})
