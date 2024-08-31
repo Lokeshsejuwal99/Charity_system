@@ -36,8 +36,16 @@
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" style="width: {{ campaign.progress_percentage }}%;" aria-valuenow="{{ campaign.progress_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
-                        <a href="{% url 'donate_now' %}" class="btn btn-success mt-3" style="text-decoration: none;">Donate Now</a>
                         <a href="{% url 'campaign_learn_more' campaign.id %}" class="btn btn-primary mt-3" style="text-decoration: none;">Learn More</a>
+                        <form action="{% url 'initiate_payment' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="amount">Donation Amount:</label>
+                                <input type="number" name="amount" id="amount" class="form-control" min="1" required>
+                            </div>
+                            <input type="hidden" name="product_id" value="PRODUCT_ID">
+                            <button type="submit" class="btn btn-success">Donate</button>
+                        </form>
                     </div>
                     {% endfor %}
                 </div>  

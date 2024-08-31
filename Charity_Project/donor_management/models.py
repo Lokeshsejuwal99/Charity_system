@@ -2,6 +2,29 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import timezone
 
+class Campaign(models.Model):
+    STATUS_CHOICES = [
+        ('active', 'Active'),
+        ('completed', 'Completed'),
+        ('inactive', 'Inactive'),
+    ]
+
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    goal_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount_raised = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    def is_active(self):
+        return self.status == 'active' and self.start_date <= timezone.now() <= self.end_date
+    
 class Donor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     phone_number = models.CharField(max_length=15, null=True)
@@ -51,10 +74,11 @@ class Donation(models.Model):
         ('pending', 'Pending'),
         ('failed', 'Failed')
     ]
-
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, null=True)
     donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
     donation_name = models.CharField(max_length=300, null=True)
     donation_pic = models.FileField(null=True)
+    amount = models.CharField(max_length=30, null=True)
     collection_loc = models.CharField(max_length=300, null=True)
     description = models.CharField(max_length=500, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
@@ -109,25 +133,3 @@ class Feedback(models.Model):
     
 
 
-class Campaign(models.Model):
-    STATUS_CHOICES = [
-        ('active', 'Active'),
-        ('completed', 'Completed'),
-        ('inactive', 'Inactive'),
-    ]
-
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    goal_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    amount_raised = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-    def is_active(self):
-        return self.status == 'active' and self.start_date <= timezone.now() <= self.end_date

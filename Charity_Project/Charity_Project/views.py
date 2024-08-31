@@ -1,6 +1,6 @@
 from donor_management.models import (Donor, Donation, DonationArea, Volunteer, ContactMessage, 
                                      Donation_Gallery, Request_for_donation, Feedback, Campaign)
-from donor_management.forms import CampaignForm
+from donor_management.forms import CampaignForm, DonorForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -11,6 +11,8 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.views import View
+import uuid
 
 def homepage(request):
  campaigns = Campaign.objects.filter(status='active')
@@ -702,8 +704,6 @@ def donation_delivered_details(request, id):
 
 
 # For esewa payment gateway 
-from django.shortcuts import render
-import uuid
 
 def initiate_payment(request):
     # Fetch or set default values for the payment details
@@ -790,6 +790,29 @@ def campaign_learn_more(request, campaign_id):
     campaign = get_object_or_404(Campaign, id=campaign_id)
     return render(request, 'campaign/learn_more.html', {'campaign': campaign})
 
+
+
+def DonateView(request, campaign_id):
+    campaign = get_object_or_404(Campaign, id=campaign_id)
+    return render(request, 'payment.html', {'campaign': campaign})
+
+    # def post(self, request, campaign_id, amount):
+    #     # Process the donation
+    #     campaign = get_object_or_404(Campaign, id=campaign_id)
+        
+    #     # Simulate successful payment
+    #     payment_success = True
+        
+    #     if payment_success:
+    #         campaign.amount_raised += amount
+    #         campaign.save()
+
+    #         messages.success(request, f'Thank you for your donation of ${amount} to {campaign.title}!')
+    #         return redirect('campaign_detail', campaign_id=campaign.id)
+    #     else:
+    #         messages.error(request, 'There was an error processing your donation. Please try again.')
+    #         return redirect('donate', campaign_id=campaign.id)
+        
 # Logout for all users.
 def Logout(request):
     logout(request)

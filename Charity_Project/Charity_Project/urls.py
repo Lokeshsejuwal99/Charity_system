@@ -44,6 +44,7 @@ urlpatterns = [
     path('campaigns/', campaign_list, name='campaign_list'),
     path('campaigns/new/', create_campaign, name='create_campaign'),
     path('active_campaign/', active_campaign, name='active_campaign'),
+    path('campaigns/<int:campaign_id>/donate/', DonateView, name='donate'),
     path('campaigns/<int:campaign_id>/', campaign_detail, name='campaign_detail'),
     path('campaign_learn_more/<int:campaign_id>/', campaign_learn_more, name='campaign_learn_more'),
     path('campaigns/<int:campaign_id>/edit/', update_campaign, name='update_campaign'),
