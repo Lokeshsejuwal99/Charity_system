@@ -23,7 +23,6 @@
             <select id="donation_name" name="donation_name" required onchange="toggleFields()">
                 <option value="">Select Donation</option>
                 <option value="food">Food</option>
-                <option value="financial">Financial</option>
                 <option value="cloth">Cloth</option>
                 <option value="vessel">Vessel</option>
                 <option value="furniture">Furniture</option>
@@ -48,7 +47,6 @@
         </div>
 
         <div class="form-group" id="esewa-button-container" style="display: none;">
-            <button type="button" onclick="window.location.href='{% url 'initiate_payment' %}'" class="esewa-button">Pay with eSewa</button>
         </div>
 
         <input type="submit" id="donate-button" value="Donate">

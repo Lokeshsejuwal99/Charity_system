@@ -64,6 +64,7 @@ urlpatterns = [
     path('accepted_donations/', accepted_donations, name='accepted_donations'),
     path('view_donation/<int:pid>/', view_donation, name='view_donation'),
     path('accepted_donation_details/<int:pid>/', accepted_donation_details, name='accepted_donation_details'),
+    path('guest-donations/', guest_donations, name='guest_donations'),
     path('add_area/', add_donation_area, name='add_area'),
     path('manage_area/', manage_donation_area, name='manage_area'),
     path('edit_donation_area/<int:id>/', edit_donation_area, name='edit_donation_area'),
@@ -80,11 +81,13 @@ urlpatterns = [
     path('volunteer_base/', volunteer_base, name='volunteer_base'),
     path('Volunteer_home/', Volunteer_home, name='Volunteer_home'),
     path('profile_volunteer', profile_volunteer, name='profile_volunteer'),
+    path('active_campaign_volunteer/', active_campaign_volunteer, name='active_campaign_volunteer'),
     path('volunteer_requests/', volunteer_requests, name='volunteer_requests'),
     path('accepted_volunteer/', accepted_volunteer, name='accepted_volunteer'),
     path('rejected_volunteer/', rejected_volunteer, name='rejected_volunteer'),
     path('all_volunteer/', all_volunteer, name='all_volunteer'),
     path('view_volunteer_details/<int:id>/', view_volunteer_details, name='view_volunteer_details'),
+    path('edit_volunteer/', edit_volunteer_profile, name='edit_volunteer_profile'),
     path('delete_volunteer/<int:id>/', delete_volunteer, name='delete_volunteer'),
     path('collection_req', donation_collection_requests, name='collection_req'),
     path('collection_req_details/<int:id>/', collection_req_details, name='collection_req_details'),
@@ -104,7 +107,7 @@ urlpatterns = [
 
 
     #For esewa integration
-    path('payment/', initiate_payment, name='initiate_payment'),
+    path('payment/<int:id>/', initiate_payment, name='initiate_payment'),
     path('success/', payment_success, name='esewa_success'),
     path('failure/', payment_failure, name='esewa_failure'),
     ]

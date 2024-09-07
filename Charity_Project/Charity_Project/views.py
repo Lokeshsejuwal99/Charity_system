@@ -9,14 +9,19 @@ from django.middleware.csrf import get_token
 from django.contrib.auth import login, logout, authenticate
 from datetime import date
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views import View
 import uuid
+from django.http import HttpResponse
 
 def homepage(request):
- campaigns = Campaign.objects.filter(status='active')
- return render(request, 'homepage.html', {'campaigns':campaigns})
+    campaigns = Campaign.objects.filter(status='active')
+
+    context = {
+        'campaigns': campaigns
+    }
+    return render(request, 'homepage.html', context)
 
 
 def donation_gallery(request):
@@ -168,12 +173,6 @@ def donor_signup(request):
 
 
 
-
-
-
-
-
-
 """Admin View"""
 
 # For admin credentials and permissions
@@ -219,9 +218,18 @@ def pending_donations(request):
 
 def accepted_donations(request):
     if not request.user.is_authenticated:
-        return redirect('admin_login')
-    donations = Donation.objects.filter(status='accept')
-    return render(request, 'accepted_donations.html',  locals())
+        return redirect('admin_login')  # Redirect to your admin login if needed
+    
+    donations = Donation.objects.filter(status='accept')  # Registered donors
+    return render(request, 'accepted_donations.html', {'donations': donations})
+
+def guest_donations(request):
+    if not request.user.is_authenticated:
+        return redirect('admin_login')  # Redirect to your admin login if needed
+    
+    donations = Donation.objects.filter(status='accept', user__isnull=True)  # Guest donors
+    return render(request, 'campaign/guest_donations.html', {'donations': donations})
+
 
 def view_donation(request, pid):
     if not request.user.is_authenticated:
@@ -338,6 +346,7 @@ def view_donors_details(request, id):
 def delete_donors(request, donor_id):
     Donor.objects.get(id=donor_id).delete()
     return redirect('manage_donors')
+
 
 @login_required
 def inquires_view(request):
@@ -478,6 +487,9 @@ def Volunteer_home(request):
         return redirect('volunteer_login')
     return render(request, 'volunteer_home.html')
 
+def active_campaign_volunteer(requests):
+    campaigns = Campaign.objects.filter(status='active')
+    return render(requests,'active_campaign_volunteer.html', locals())
 
 @login_required
 def profile_volunteer(request):
@@ -583,6 +595,35 @@ def view_volunteer_details(request, id):
     else:
         return render(request, 'view_volunteer_details.html', {'volunteer': volunteer})
 
+
+@login_required
+def edit_volunteer_profile(request):
+    volunteer = get_object_or_404(Volunteer, user=request.user)
+    
+    if request.method == 'POST':
+        # Extract data from the POST request
+        volunteer.contact = request.POST.get('contact')
+        volunteer.address = request.POST.get('address')
+        volunteer.aboutme = request.POST.get('aboutme')
+        volunteer.status = request.POST.get('status')
+        
+        # Handle file uploads
+        if request.FILES.get('profile_pic'):
+            volunteer.profile_pic = request.FILES.get('profile_pic')
+        if request.FILES.get('identity_card'):
+            volunteer.identity_card = request.FILES.get('identity_card')
+
+        # Save the updated volunteer profile
+        volunteer.save()
+
+        messages.success(request, 'Your profile has been updated successfully!')
+        return redirect('profile_volunteer')  # Redirect to profile page after saving changes
+
+    context = {
+        'volunteer': volunteer,
+    }
+
+    return render(request, 'edit_volunteer_profile.html', context)
 
 def delete_volunteer(request, id):
     Donor.objects.get(id=id).delete()
@@ -705,28 +746,76 @@ def donation_delivered_details(request, id):
 
 # For esewa payment gateway 
 
-def initiate_payment(request):
-    # Fetch or set default values for the payment details
-    amount = request.POST.get('amount', 100)  # Default to 100 if not provided
-    product_id = request.POST.get('product_id', 'PRODUCT_ID')  # Set your product ID here
-    transaction_id = str(uuid.uuid4())  # Generate a unique transaction ID
-    
-    # Your eSewa Merchant Code (scd)
-    merchant_code = 'EPAYTEST'  # Replace with your actual merchant code
 
-    # Context to pass to the payment.html template
-    context = {
-        'amount': amount,
-        'merchant_code': merchant_code,
-        'product_id': product_id,
-        'transaction_id': transaction_id,
-        'success_url': 'http://127.0.0.1:8000/success/',  # Your success URL
-        'failure_url': 'http://127.0.0.1:8000/failure/'   # Your failure URL
-    }
-    return render(request, 'payment.html', context)
+def initiate_payment(request, id):
+    if request.method == 'POST':
+        # Get amount and campaign_id from POST request
+        amount = request.POST.get('amount')
+        campaign_id = request.POST.get('campaign_id')
+
+        # Check if campaign_id is provided
+        if not campaign_id:
+            return HttpResponseBadRequest("Campaign ID is required.")
+
+        # Get donor details from POST request
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+
+        # Generate a unique transaction ID
+        transaction_id = str(uuid.uuid4())
+        merchant_code = 'EPAYTEST'
+
+        # Prepare context for payment template
+        context = {
+            'amount': amount,
+            'merchant_code': merchant_code,
+            'product_id': campaign_id,
+            'transaction_id': transaction_id,
+            'success_url': 'http://127.0.0.1:8000/success/',
+            'failure_url': 'http://127.0.0.1:8000/failure/',
+            'name': name,
+            'email': email,
+            'phone': phone
+        }
+
+        return render(request, 'payment.html', context)
+    else:
+        return HttpResponse("Invalid request method.", status=405)
+    
 
 def payment_success(request):
-    return render(request, 'esewa_success.html')
+    transaction_id = request.GET.get('refId')
+    amount = float(request.GET.get('amt'))
+    campaign_id = request.GET.get('oid')
+    name = request.GET.get('name')
+    email = request.GET.get('email')
+    phone = request.GET.get('phone')
+
+    if not campaign_id:
+        return HttpResponseBadRequest("Campaign ID is missing in the response.")
+
+    campaign = get_object_or_404(Campaign, id=campaign_id)
+    campaign.amount_raised += float(amount)
+    campaign.save()
+
+    # Save donor details
+    Donation.objects.create(
+        campaign=campaign,
+        donor_name=name,
+        donor_email=email,
+        donor_phone=phone,
+        amount=amount,
+        transaction_id=transaction_id
+    )
+
+    context = {
+        'ref_id': transaction_id,
+        'amount': amount,
+        'campaign': campaign,
+    }
+    return render(request, 'esewa_success.html', context)
+
 
 def payment_failure(request):
     return render(request, 'esewa_failure.html')
@@ -817,3 +906,5 @@ def DonateView(request, campaign_id):
 def Logout(request):
     logout(request)
     return redirect('homepage')
+
+

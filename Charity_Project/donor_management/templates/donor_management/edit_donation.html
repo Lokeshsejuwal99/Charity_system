@@ -1,0 +1,107 @@
+{% extends 'donor_management/donor_base.html' %}
+
+{% block title %}Edit Donation{% endblock %}
+
+{% block content %}
+<div class="edit-donation-container">
+    <h1>Edit Donation</h1>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="donation_name">Donation Name:</label>
+            <input type="text" id="donation_name" name="donation_name" value="{{ donation.donation_name }}" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" class="form-control" required>{{ donation.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="collection_loc">Collection Location:</label>
+            <input type="text" id="collection_loc" name="collection_loc" value="{{ donation.collection_loc }}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="donation_pic">Donation Picture:</label>
+            <input type="file" id="donation_pic" name="donation_pic" class="form-control">
+            {% if donation.donation_pic %}
+                <img src="{{ donation.donation_pic.url }}" alt="Donation Picture" class="img-thumbnail" style="margin-top: 10px; max-width: 150px;">
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="{% url 'donation_history' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<style>
+    .edit-donation-container {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 20px auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+        border: none;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    .img-thumbnail {
+        display: block;
+        margin-top: 10px;
+        max-width: 100px;
+    }
+</style>
+{% endblock %}

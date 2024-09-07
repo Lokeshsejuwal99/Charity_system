@@ -144,3 +144,41 @@ def edit_donor_profile(request):
     }
 
     return render(request, 'profile_donor_edit.html', context)
+
+
+
+@login_required
+def delete_donation(request, donation_id):
+    # Get the donation object by ID and delete it
+    donation = get_object_or_404(Donation, id=donation_id)
+    donation.delete()
+    # Redirect to the donation history page after deletion
+    return redirect('donation_history') 
+
+
+
+@login_required
+def edit_donation(request, donation_id):
+    donation = get_object_or_404(Donation, id=donation_id)
+    
+    if request.method == 'POST':
+        donation.donation_name = request.POST.get('donation_name')
+        donation.description = request.POST.get('description')
+        donation.collection_loc = request.POST.get('collection_loc')
+        donation.donation_pic = request.FILES.get('donation_pic')
+        donation.save()
+        return redirect('donation_history')  # Replace with the correct URL name
+
+    context = {
+        'donation': donation
+    }   
+    return render(request, 'donor_management/edit_donation.html', context)
+
+
+def donor_view_donation(request, donation_id):
+    donation = get_object_or_404(Donation, id=donation_id)
+
+    context = {
+        'donation': donation
+    }
+    return render(request, 'donor_management/view_donation_details.html', context)

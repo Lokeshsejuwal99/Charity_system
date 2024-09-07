@@ -14,7 +14,6 @@
     <div class="cards-section">
         <div class="card">
             <div class="card-icon">
-                <img src="{% static 'images/volunteer-icon.png' %}" alt="Volunteer Icon">
             </div>
             <div class="card-content">
                 <h2>Your Profile</h2>
@@ -24,22 +23,20 @@
         </div>
         <div class="card">
             <div class="card-icon">
-                <img src="{% static 'images/campaign-icon.png' %}" alt="Campaign Icon">
             </div>
             <div class="card-content">
                 <h2>Active Campaigns</h2>
                 <p>Explore ongoing campaigns and find out how you can contribute.</p>
-                <a href="" class="btn">View Campaigns</a>
+                <a href="{% url 'active_campaign_volunteer' %}" class="btn">View Campaigns</a>
             </div>
         </div>
         <div class="card">
             <div class="card-icon">
-                <img src="{% static 'images/history-icon.png' %}" alt="History Icon">
             </div>
             <div class="card-content">
                 <h2>Donation History</h2>
                 <p>Check your past contributions and track your impact.</p>
-                <a href="" class="btn">View History</a>
+                <a href="{% url 'donation_delivered' %}" class="btn">View History</a>
             </div>
         </div>
     </div>
@@ -52,9 +49,7 @@
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Welcome Section */

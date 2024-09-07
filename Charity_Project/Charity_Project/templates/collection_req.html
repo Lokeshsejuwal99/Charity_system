@@ -3,11 +3,11 @@
 
 {% block content %}
 <div class="navbar">
- <h2>Manage Collection Requests</h2>
+ <h2 style="text-align: center;">Collection Requests</h2>
 </div>
 <main>
  {% if donation %}
-     <table class="table">
+     <table class="table" id="example">
          <thead>
              <tr>
                  <th>S.N</th>
@@ -77,7 +77,7 @@
  }
 
  .btn {
-     padding: 8px 12px;
+     padding: 8px 8px;
      border-radius: 4px;
      color: white;
      text-decoration: none;
@@ -86,13 +86,11 @@
  }
 
  .btn-edit {
-     background-color: #2648e1; /* Edit button color */
-     margin-right: 5px;
+     margin-left: 80px;
+     color: blue;
  }
 
- .btn-edit:hover {
-     background-color: #1e3bba;
- }
+
 
  .btn-delete {
      background-color: #f44336; /* Delete button color */

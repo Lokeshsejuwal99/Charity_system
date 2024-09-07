@@ -1,0 +1,134 @@
+{% extends 'donor_management/donor_base.html' %}
+
+{% block title %}Donation Details{% endblock %}
+
+{% block content %}
+<div class="donation-details-container">
+  <h1>Donation Details</h1>
+
+  <!-- Donor Details Section -->
+  <div class="details-section">
+    <h2>Donor Details</h2>
+    <table class="details-table">
+      <tr>
+        <th>Donor Name</th>
+        <td>{{ donation.donor.user.first_name }} {{ donation.donor.user.last_name }}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{{ donation.donor.user.email }}</td>
+      </tr>
+      <tr>
+        <th>Contact No</th>
+        <td>{{ donation.donor.phone_number }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Donation Details Section -->
+  <div class="details-section">
+    <h2>Donation Details</h2>
+    <table class="details-table">
+      <tr>
+        <th>Donation Name</th>
+        <td>{{ donation.donation_name }}</td>
+      </tr>
+      <tr>
+        <th>Donation Amount</th>
+        <td>{{ donation.amount }}</td>
+      </tr>
+      <tr>
+        <th>Donation Date</th>
+        <td>{{ donation.donation_date | date:"M d, Y" }}</td>
+      </tr>
+      <tr>
+        <th>Collection Location</th>
+        <td>{{ donation.collection_loc }}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>{{ donation.status }}</td>
+      </tr>
+      <tr>
+        <th>Admin Remarks</th>
+        <td>{{ donation.admin_remarks }}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<style>
+  .donation-details-container {
+    background-color: transparent;
+    padding: 20px;
+    max-width: 900px;
+    width: 100%;
+    margin: 40px auto;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  h1 {
+    color: #2c3e50;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  h2 {
+    color: #34495e;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .details-section {
+    margin-bottom: 50px;
+  }
+
+  .details-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .details-table th,
+  .details-table td {
+    border: none;
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .details-table th {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .details-table td {
+    background-color: #ffffff;
+    color: #34495e;
+    font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .details-table th,
+    .details-table td {
+      display: block;
+      width: 100%;
+    }
+
+    .details-table th {
+      background-color: transparent;
+      font-size: 14px;
+      color: #2c3e50;
+    }
+
+    .details-table td {
+      background-color: #f9f9f9;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+</style>
+{% endblock %}

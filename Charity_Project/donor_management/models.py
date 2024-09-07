@@ -25,6 +25,14 @@ class Campaign(models.Model):
     def is_active(self):
         return self.status == 'active' and self.start_date <= timezone.now() <= self.end_date
     
+
+    @property
+    def progress_percentage(self):
+        if self.goal_amount > 0:
+            return (self.amount_raised / self.goal_amount) * 100
+        return 0
+    
+
 class Donor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     phone_number = models.CharField(max_length=15, null=True)
@@ -32,6 +40,8 @@ class Donor(models.Model):
     district = models.CharField(max_length=100, null=True)
     country = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    amount_donated = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='donors', null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -89,10 +99,11 @@ class Donation(models.Model):
     donation_date = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    user = models.ForeignKey('auth.User', null=True, blank=True, on_delete=models.SET_NULL)
+    
     def __str__(self):
-        return self.donation_name
-
+        return f"Donation of {self.amount} by {self.donor.user.first_name}"
+    
 
 class Request_for_donation(models.Model):
     name = models.CharField(max_length=100)

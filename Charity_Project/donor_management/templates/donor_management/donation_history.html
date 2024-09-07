@@ -28,16 +28,14 @@
         </thead>
         <tbody>
             {% for donation in donations %}
-            <tr>
+            <tr id="donation-row-{{ donation.id }}">
                 <td>{{ forloop.counter }}</td>
                 <td>{{ donation.donation_name }}</td>
                 <td>{{ donation.created_at|date:"Y-m-d" }}</td>
                 <td>{{ donation.status }}</td>
                 <td>
-                    <!-- Example action buttons -->
-                    <a href="" class="btn btn-primary">View</a>
-                    <a href="" class="btn btn-warning">Edit</a>
-                    <a href="" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this donation?');">Delete</a>
+                    <a href="{% url 'donation_edit' donation.id %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'delete_donation' donation.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this donation?');">Delete</a>
                 </td>
             </tr>
             {% endfor %}
@@ -50,7 +48,7 @@
         background-color: transparent;
         padding: 20px;
         border-radius: 10px;
-        max-width: 800px;
+        max-width: 90%;  /* Adjusted for better screen fitting */
         width: 100%;
         text-align: center;
         margin: 20px auto;
@@ -73,6 +71,7 @@
         border: 1px solid #ddd;
         padding: 8px;
         text-align: center;
+        word-wrap: break-word; /* Ensure content doesn't overflow */
     }
 
     .donation-history-table th {
@@ -81,7 +80,7 @@
     }
 
     .btn {
-        padding: 5px 10px;
+        padding: 5px 5px;
         text-decoration: none;
         border-radius: 5px;
         margin: 2px;
@@ -94,7 +93,7 @@
     }
 
     .btn-warning {
-        background-color: #ffc107;
+        background-color: #5eff07;
         color: black;
     }
 
@@ -104,4 +103,3 @@
     }
 </style>
 {% endblock %}
-
