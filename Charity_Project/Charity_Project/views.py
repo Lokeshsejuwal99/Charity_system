@@ -176,9 +176,6 @@ def donor_signup(request):
 """Admin View"""
 
 # For admin credentials and permissions
-def admin_signup(request):
-    return render(request, 'admin_signup.html')
-
 
 def admin_login(request):
     if request.method == 'POST':

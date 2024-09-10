@@ -25,9 +25,7 @@ urlpatterns = [
     path('', homepage, name='homepage'),
     path('admin/', admin.site.urls),
     path('donor/', include('donor_management.urls')),
-    path('project/', include('project_management.urls')),
-    path('finance/', include('finance_management.urls')),
-
+    
     # url for the elements of homepage and navbar
     path('login_as/', login_as_view, name='login_as'),
     path('gallery/', donation_gallery, name='donation_gallery'),
@@ -53,7 +51,6 @@ urlpatterns = [
 
     #for admin
     path('admin_login/', admin_login, name='admin_login'),
-    path('admin_signup/', admin_signup, name='admin_signup'),
     path('admin_home/', admin_dashboard, name='admin_home'),
     path('inquires/', inquires_view, name='inquires'),
     path('inquiries/message/<int:message_id>/', view_message_details, name='view_message_details'),

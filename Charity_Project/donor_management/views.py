@@ -1,7 +1,5 @@
 # In your view where donation is processed
-from finance_management.models import Budget
 from donor_management.models import Donor, Donation
-from project_management.models import Project
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import DonorForm
 from django.shortcuts import render, redirect
