@@ -105,7 +105,9 @@ urlpatterns = [
 
     #For esewa integration
     path('payment/<int:id>/', initiate_payment, name='initiate_payment'),
-    path('success/', payment_success, name='esewa_success'),
+    # path('success/', payment_success, name='esewa_success'),
+     path('success/name/<str:name>/email/<str:email>/campaign_id/<str:campaign_id>/phone/<str:phone>/',payment_success, name='esewa_success'),
+
     path('failure/', payment_failure, name='esewa_failure'),
     ]
 

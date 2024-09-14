@@ -24,4 +24,5 @@ function submitPayment() {
     document.getElementById('signature').value = signature;
     
     form.submit();
+    
 }

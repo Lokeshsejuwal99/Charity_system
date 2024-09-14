@@ -15,6 +15,10 @@ from django.views import View
 import uuid
 from django.http import HttpResponse
 
+import base64
+import json
+from decimal import Decimal
+
 def homepage(request):
     campaigns = Campaign.objects.filter(status='active')
 
@@ -781,30 +785,45 @@ def initiate_payment(request, id):
         return HttpResponse("Invalid request method.", status=405)
     
 
-def payment_success(request):
-    transaction_id = request.GET.get('refId')
-    amount = float(request.GET.get('amt'))
-    campaign_id = request.GET.get('oid')
-    name = request.GET.get('name')
-    email = request.GET.get('email')
-    phone = request.GET.get('phone')
+def payment_success(request, name, email, campaign_id,phone):
+     
+    encoded_str = request.GET.get('data')  
+    # Decode the Base64 string
+    decoded_bytes = base64.b64decode(encoded_str)
 
+    # Convert the decoded bytes into a string (assuming it's a UTF-8 encoded string)
+    decoded_str = decoded_bytes.decode('utf-8')
+
+    # Convert the decoded string into a JSON object
+    decoded_json = json.loads(decoded_str)
+    # Print the decoded JSON
+    print(json.dumps(decoded_json, indent=4))
+
+    # Extract the total amount
+    amount = decoded_json.get('total_amount')
+
+    transaction_id = decoded_json.get("transaction_uuid")
+    print('name')
+    print(name,phone,email,campaign_id)
     if not campaign_id:
         return HttpResponseBadRequest("Campaign ID is missing in the response.")
 
     campaign = get_object_or_404(Campaign, id=campaign_id)
-    campaign.amount_raised += float(amount)
+    print('amount')
+    print(amount)
+    campaign.amount_raised += Decimal(amount)
     campaign.save()
 
-    # Save donor details
-    Donation.objects.create(
-        campaign=campaign,
-        donor_name=name,
-        donor_email=email,
-        donor_phone=phone,
-        amount=amount,
-        transaction_id=transaction_id
-    )
+    # # Save donor details
+
+    # Donation.objects.create(
+    #     campaign=campaign,
+    #     donor_name=name,
+    #     donor_email=email,
+    #     donor_phone=phone,
+    #     amount=amount,
+    #     transaction_id=transaction_id
+    # )
 
     context = {
         'ref_id': transaction_id,
