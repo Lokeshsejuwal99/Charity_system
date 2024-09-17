@@ -102,7 +102,7 @@ class Donation(models.Model):
     user = models.ForeignKey('auth.User', null=True, blank=True, on_delete=models.SET_NULL)
     
     def __str__(self):
-        return f"Donation of {self.amount} by {self.donor.user.first_name}"
+        return f"{self.donor.user} {self.donor.user}"
     
 
 class Request_for_donation(models.Model):
@@ -142,5 +142,3 @@ class Feedback(models.Model):
     def __str__(self):
         return self.name
     
-
-
