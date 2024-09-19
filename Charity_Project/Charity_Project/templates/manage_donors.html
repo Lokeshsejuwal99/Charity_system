@@ -8,6 +8,7 @@
 <div class="navbar">
     <h2>Manage Donors</h2>
 </div>
+
 <main>
     {% if donors %}
         <table class="table" id="example">
@@ -15,8 +16,6 @@
                 <tr>
                     <th>S.N</th>
                     <th>Username</th>
-                    <th>Email</th>
-                    <th>Country</th>
                     <th>Created Date</th>
                     <th>Actions</th>
                 </tr>
@@ -26,15 +25,15 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ donor.user.username }}</td>
-                    <td>{{ donor.user.email }}</td>
-                    <td>{{ donor.country }}</td>
                     <td>{{ donor.created_at|date:"F j, Y" }}</td>
                     <td>
                         <a href="{% url 'view_donors_details' donor.id %}" class="btn btn-edit">View</a>
-                        <form action="" method="POST" style="display:inline;">
+                        
+                        <!-- Proper form submission for delete -->
+                        <form action="{% url 'delete_donors' donor.id %}" method="POST" style="display:inline;">
                             {% csrf_token %}
-                            <a href="{% url 'delete_donors' donor.id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this area?');">Delete</a>
-                    </form>
+                            <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this donor?');">Delete</button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}
@@ -48,31 +47,33 @@
 </main>
 
 <style>
-    /* Styles inherited from the theme */
+    /* Styling the navbar */
     .navbar h2 {
         color: #2648e1;
         font-size: 24px;
-        margin: 0;
+        margin-bottom: 20px;
     }
 
     main {
         padding: 20px;
-        background: transparent;
+        background: #f9f9f9;
+        border-radius: 10px;
         min-height: calc(100vh - 56px);
-        overflow-x: auto;
     }
 
+    /* Table styling */
     .table {
         width: 100%;
         margin-top: 20px;
-
+        border-collapse: collapse;
+        table-layout: auto;
     }
 
     .table th, .table td {
         border: 1px solid #ddd;
+        padding: 10px;
         text-align: left;
         font-size: 16px;
-    
     }
 
     .table th {
@@ -84,6 +85,7 @@
         background-color: #f2f2f2;
     }
 
+    /* Button styling */
     .btn {
         padding: 8px 12px;
         border-radius: 4px;
@@ -91,6 +93,8 @@
         text-decoration: none;
         font-size: 14px;
         transition: background-color 0.3s ease;
+        cursor: pointer;
+        border: none;
     }
 
     .btn-edit {
@@ -110,12 +114,14 @@
         background-color: #d32f2f;
     }
 
+    /* Alert message */
     .alert {
         padding: 10px;
         background-color: #f44336;
         color: white;
         margin-top: 20px;
         border-radius: 4px;
+        text-align: center;
     }
 
 </style>

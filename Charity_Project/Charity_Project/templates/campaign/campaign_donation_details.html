@@ -1,0 +1,91 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Donation Details{% endblock %}
+
+{% block content %}
+<div class="donation-details-container">
+    <h1>Donation Details</h1>
+
+    <table class="donation-details-table">
+        <tr>
+            <th>Donor Name</th>
+            <td>{{ donation.donation_name }}</td>
+        </tr>
+        <tr>
+            <th>Phone Number</th>
+            <td>{{ donation.donor.phone_number }}</td>
+        </tr>
+        <tr>
+            <th>Amount</th>
+            <td>{{ donation.amount }}</td>
+        </tr>
+        <tr>
+            <th>Donation Date</th>
+            <td>{{ donation.created_at|date:"Y-m-d" }}</td>
+        </tr>
+        <tr>
+            <th>Campaign Name</th>
+            <td>{{ donation.campaign.title }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ donation.status }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ donation.description }}</td>
+        </tr>
+    </table>
+
+    <a href="{% url 'campaign_donations' %}" class="btn btn-primary">Back to List</a>
+</div>
+
+<style>
+    .donation-details-container {
+        background-color: transparent;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 800px;
+        width: 100%;
+        text-align: center;
+        margin: 20px auto;
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .donation-details-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    .donation-details-table th, .donation-details-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .donation-details-table th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .btn {
+        padding: 5px 10px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 2px;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
+{% endblock %}

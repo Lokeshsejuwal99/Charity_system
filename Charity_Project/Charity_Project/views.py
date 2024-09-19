@@ -926,10 +926,20 @@ def campaign_learn_more(request, campaign_id):
 
 def campaign_donations(request):
     if not request.user.is_authenticated:
-        return redirect('admin_login')  # Redirect to your admin login if needed
+        return redirect('admin_login')
     
-    donations = Donation.objects.filter(user__isnull=False)  # Registered donors
+    donations = Donation.objects.filter(user__isnull=False) 
     return render(request, 'campaign/campaign_donations.html', {'donations': donations})
+
+
+
+def campaign_donation_details(request, pid):
+    donation = get_object_or_404(Donation, id=pid)
+    
+    context = {
+        'donation': donation,
+    }
+    return render(request, 'campaign/campaign_donation_details.html', context)
 
 
 def DonateView(request, campaign_id):

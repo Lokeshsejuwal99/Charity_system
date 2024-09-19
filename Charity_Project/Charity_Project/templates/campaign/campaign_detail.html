@@ -26,8 +26,7 @@
         <div class="campaign-actions">
             <form action="{% url 'initiate_payment' campaign.id %}" method="post">
                 {% csrf_token %}
-                <input type="hidden" name="campaign_id" value="{{ campaign.id }}"> <!-- Correctly pass the campaign ID -->
-                <button type="submit" class="btn btn-success" style="background-color: rgb(5, 220, 5);">Donate Now</button>
+                <input type="hidden" name="campaign_id" value="{{ campaign.id }}">
             </form>            <a href="{% url 'update_campaign' campaign.id %}" class="btn btn-warning">Edit Campaign</a>
             <form action="{% url 'delete_campaign' campaign.id %}" method="post" style="display:inline;">
                 {% csrf_token %}

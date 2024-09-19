@@ -18,7 +18,6 @@
                      <th>Email</th>
                      <th>Status</th>
                      <th>Address</th>
-                     <th>Created Date</th>
                      <th>Actions</th>
                  </tr>
              </thead>
@@ -30,7 +29,6 @@
                      <td>{{ volunteer.user.email }}</td>
                      <td>{{ volunteer.status }}</td>
                      <td>{{ volunteer.address }}</td>
-                     <td>{{ volunteer.created_at|date:"F j, Y" }}</td> 
                      <td>
                          <a href="{% url 'view_volunteer_details' volunteer.id %}" class="btn btn-edit">View Details</a>
                          <form action="{% url 'delete_volunteer' volunteer.id %}" method="POST" style="display:inline;">

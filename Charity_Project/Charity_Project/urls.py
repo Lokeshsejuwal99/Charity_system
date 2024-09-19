@@ -47,6 +47,7 @@ urlpatterns = [
     path('campaign_learn_more/<int:campaign_id>/', campaign_learn_more, name='campaign_learn_more'),
     path('campaigns/<int:campaign_id>/edit/', update_campaign, name='update_campaign'),
     path('campaigns/<int:campaign_id>/delete/', delete_campaign, name='delete_campaign'),
+    path('campaign_donations_details/<int:pid>/', campaign_donation_details, name='campaign_donation_details'),
 
 
     #for admin
