@@ -946,22 +946,6 @@ def DonateView(request, campaign_id):
     campaign = get_object_or_404(Campaign, id=campaign_id)
     return render(request, 'payment.html', {'campaign': campaign})
 
-    # def post(self, request, campaign_id, amount):
-    #     # Process the donation
-    #     campaign = get_object_or_404(Campaign, id=campaign_id)
-        
-    #     # Simulate successful payment
-    #     payment_success = True
-        
-    #     if payment_success:
-    #         campaign.amount_raised += amount
-    #         campaign.save()
-
-    #         messages.success(request, f'Thank you for your donation of ${amount} to {campaign.title}!')
-    #         return redirect('campaign_detail', campaign_id=campaign.id)
-    #     else:
-    #         messages.error(request, 'There was an error processing your donation. Please try again.')
-    #         return redirect('donate', campaign_id=campaign.id)
         
 # Logout for all users.
 def Logout(request):
