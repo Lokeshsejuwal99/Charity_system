@@ -199,12 +199,14 @@ def admin_dashboard(request):
     total_campaigns = Campaign.objects.count()
     total_donations = Donation.objects.count()
     active_volunteers = Volunteer.objects.filter(status='active').count()
+    # pending_donations = Donation.objects.filter(status='pending').count()
 
     context = {
         'total_donors': total_donors,
         'total_campaigns': total_campaigns,
         'total_donations': total_donations,
         'active_volunteers': active_volunteers,
+        # 'pending_donations' : pending_donations,
         'user': request.user
     }
 

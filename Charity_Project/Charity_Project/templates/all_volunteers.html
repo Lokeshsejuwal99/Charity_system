@@ -15,7 +15,6 @@
                 <tr>
                     <th>S.N</th>
                     <th>Username</th>
-                    <th>Email</th>
                     <th>Status</th>
                     <th>Address</th>
                     <th>Created Date</th>
@@ -27,7 +26,6 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ volunteer.user.first_name }} {{ volunteer.user.last_name }}</td>
-                    <td>{{ volunteer.user.email }}</td>
                     <td>{{ volunteer.status }}</td>
                     <td>{{ volunteer.address }}</td>
                     <td>{{ volunteer.created_at|date:"F j, Y" }}</td> 
@@ -65,7 +63,7 @@
     }
 
     .table {
-        width: 100%;
+        width: 60%;
         border-collapse: collapse;
         margin-top: 20px;
     }

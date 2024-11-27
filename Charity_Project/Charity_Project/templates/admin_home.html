@@ -24,10 +24,7 @@
             <p>{{ active_volunteers }}</p>
         </div>
     </div>
-    <!-- <div class="charts-container">
-        <h2>Donation Trends</h2>
-        <canvas id="donationChart"></canvas>
-    </div> -->
+
     <div class="recent-activities">
         <h2>Recent Activities</h2>
         <ul>
@@ -53,7 +50,7 @@
     <div class="notifications">
         <h2>Notifications</h2>
         <div class="notification">
-            <p>You have 5 new donations waiting for approval.</p>
+            <p>You have {{ pending_donations }} new donations waiting for approval.</p>
         </div>
     </div>
 </div>
