@@ -334,16 +334,11 @@ def delete_area(request, area_id):
     
 @login_required
 def manage_donors(request):
-    if not request.user.is_authenticated:
-        return redirect('admin_login')
-    donors = Donor.objects.all()
-    return render(request, 'manage_donors.html',  locals())
+    donors = Donor.objects.exclude(user=None)
+    return render(request, 'manage_donors.html', {"donors": donors})
 
 @login_required
 def view_donors_details(request, id):
-    if not request.user.is_authenticated:
-        return redirect('admin_login')
-    
     donors = Donor.objects.get(id=id)
     return render(request, 'view_donors_details.html', locals())
 
@@ -751,9 +746,9 @@ def donation_delivered_details(request, id):
 
 # For esewa payment gateway 
 
-
 def initiate_payment(request, id):
     if request.method == 'POST':
+        
         # Get amount and campaign_id from POST request
         amount = request.POST.get('amount')
         campaign_id = request.POST.get('campaign_id')
@@ -790,42 +785,30 @@ def initiate_payment(request, id):
     
 
 def payment_success(request, name, email, campaign_id, phone):
-    # Get the Base64 encoded string from the request
     encoded_str = request.GET.get('data')
 
     if not encoded_str:
         return HttpResponseBadRequest("Missing payment data")
 
     try:
-        # Decode the Base64 string to get the original JSON string
         decoded_bytes = base64.b64decode(encoded_str)
         decoded_str = decoded_bytes.decode('utf-8')
-        
-        # Parse the decoded JSON string
         decoded_json = json.loads(decoded_str)
 
-        # Extract transaction details from the decoded JSON
         amount = decoded_json.get('total_amount', '0').replace(',', '')  # Clean amount
         transaction_id = decoded_json.get("transaction_uuid")
-
-        # Convert the amount to a Decimal object
         donation_amount = Decimal(amount)
 
     except (json.JSONDecodeError, base64.binascii.Error, Decimal.InvalidOperation) as e:
-        # Handle decoding or conversion errors
         return HttpResponseBadRequest(f"Error decoding or converting payment data: {e}")
 
-    # Retrieve the campaign using the campaign_id
     if not campaign_id:
         return HttpResponseBadRequest("Campaign ID is missing in the response.")
 
     campaign = get_object_or_404(Campaign, id=campaign_id)
-
-    # Update the amount raised in the campaign
     campaign.amount_raised += donation_amount
     campaign.save()
 
-    # Check if the donor already exists (based on email or phone)
     donor, created = Donor.objects.get_or_create(
         phone_number=phone,
         defaults={
@@ -837,7 +820,6 @@ def payment_success(request, name, email, campaign_id, phone):
         }
     )
 
-    # If donor already exists, update the donation amount
     if not created:
         donor.amount_donated += donation_amount
         donor.save()
@@ -850,10 +832,9 @@ def payment_success(request, name, email, campaign_id, phone):
         amount=donation_amount,
         description="Donation made through eSewa",
         status="success",
-        user=request.user if request.user.is_authenticated else None,
+        user=request.user if request.user.is_authenticated else None, 
     )
 
-    # Prepare context for the success page
     context = {
         'ref_id': transaction_id,
         'amount': donation_amount,
@@ -863,11 +844,9 @@ def payment_success(request, name, email, campaign_id, phone):
 
     return render(request, 'esewa_success.html', context)
 
+
 def payment_failure(request):
     return render(request, 'esewa_failure.html')
-
-
-
 
 
 ### For campaign management 
@@ -930,9 +909,8 @@ def campaign_donations(request):
     if not request.user.is_authenticated:
         return redirect('admin_login')
     
-    donations = Donation.objects.filter(user__isnull=False) 
+    donations = Donation.objects.filter(user__isnull=True, amount__isnull=False)
     return render(request, 'campaign/campaign_donations.html', {'donations': donations})
-
 
 
 def campaign_donation_details(request, pid):

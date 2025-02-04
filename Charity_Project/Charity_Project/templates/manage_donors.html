@@ -24,7 +24,7 @@
                 {% for donor in donors %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ donor.user.username }}</td>
+                    <td>{{ donor.user.first_name }} {{ donor.user.last_name }}</td>
                     <td>{{ donor.created_at|date:"F j, Y" }}</td>
                     <td>
                         <a href="{% url 'view_donors_details' donor.id %}" class="btn btn-edit">View</a>
