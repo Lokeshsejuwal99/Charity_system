@@ -11,11 +11,12 @@
   <nav class="navbar">
    <div class="container">
        <a href="{% url 'homepage' %}" class="logo">
-        <img src="{% static 'images/logo2.png' %}" alt="Charity System Logo" class="logo-img">
+        <img src="{% static 'images/sewalink.png' %}" alt="Charity System Logo" class="logo-img">
        </a>
        {% if request.path == '/' %}
        <ul class="nav-links">
-           <li><a href="{% url 'donation_gallery' %}">Our Gallery</a></li>
+           {% comment %} <li><a href="{% url 'donation_gallery' %}">Our Gallery</a></li> {% endcomment %}
+           <li><a href="{% url 'homepage' %}">Home</a></li>
            <li><a href="{% url 'about' %}">About Us</a></li>
            <li><a href="{% url 'contact' %}">Contact</a></li>
            <a class="nav-link" href="{% url 'feedback_page' %}">Feedback</a>
@@ -52,7 +53,8 @@
 
 .logo-img{
     height: 1.2cm;
-    width: 3cm;
+    margin-right: 400px;
+    width: 4cm;
 }
 
 .navbar .container {
@@ -89,8 +91,9 @@
 }
 
 .navbar .nav-links a:hover {
-    background-color: #34495E;
+    background-color:rgb(253, 253, 253);
     border-radius: 5px;
+    color:black;
 }
 
 /* Login/Signup Buttons */

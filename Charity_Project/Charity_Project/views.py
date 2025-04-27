@@ -14,7 +14,6 @@ from django.views.decorators.http import require_http_methods
 from django.views import View
 import uuid
 from django.http import HttpResponse
-
 import base64
 import json
 from decimal import Decimal
@@ -779,7 +778,7 @@ def initiate_payment(request, id):
             'phone': phone
         }
 
-        return render(request, 'payment.html', context)
+        return render(request, 'payment.html', context) 
     else:
         return HttpResponse("Invalid request method.", status=405)
     
